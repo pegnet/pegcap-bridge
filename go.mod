@@ -1,4 +1,4 @@
-module github.com/whosoup/pegcap-middleware
+module github.com/whosoup/pegcap-bridge
 
 go 1.13
 

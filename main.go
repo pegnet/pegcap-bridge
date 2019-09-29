@@ -9,7 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/syndtr/goleveldb/leveldb"
-	"github.com/whosoup/pegcap-middleware/api"
+	"github.com/whosoup/pegcap-bridge/api"
 )
 
 func main() {
