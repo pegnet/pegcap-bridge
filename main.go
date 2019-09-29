@@ -44,6 +44,7 @@ func main() {
 	}))
 
 	api := new(api.Api)
+	api.Init("https://api.factomd.net")
 	api.DB = db
 
 	// Routes
@@ -53,6 +54,8 @@ func main() {
 	e.GET("/v1/asset/name/:code", api.AssetName)
 
 	e.GET("/v1/heights", api.Heights)
+	e.GET("/v1/rates/:height", api.Rates)
+	e.GET("/v1/market/:height", api.Market)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":5151"))

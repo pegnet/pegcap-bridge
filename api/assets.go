@@ -23,7 +23,7 @@ func init() {
 	names["SGD"] = "Singapore Dollar"
 	names["CNY"] = "Chinese Yuan"
 	names["HKD"] = "Hong Kong Dollar"
-	names["TWD"] = "Tiawanese Dollar"
+	names["TWD"] = "Taiwanese Dollar"
 	names["KRW"] = "Korean Won"
 	names["ARS"] = "Argentine Peso"
 	names["BRL"] = "Brazil Real"

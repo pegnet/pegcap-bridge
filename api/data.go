@@ -9,9 +9,6 @@ type Metadata struct {
 	Last int
 }
 
-type Rate struct {
-	Rates []TokenRate
-}
 type TokenRate struct {
 	Name string
 	Rate uint64
@@ -70,16 +67,17 @@ func (a *Api) GenericSet(v interface{}, bits ...string) {
 	}
 }
 
-func (a *Api) GenericSetHeight(data []byte, height int, bits ...string) {
+func (a *Api) GenericSetHeight(v interface{}, height int, bits ...string) {
 	bits = append([]string{fmt.Sprintf("%d", height)}, bits...)
-	a.GenericSet(data, bits...)
+	a.GenericSet(v, bits...)
 }
 
 func (a *Api) GetMetadata() Metadata {
 	var m Metadata
 	err := a.GenericGet(&m, "metadata")
 	if err != nil {
-		panic("corrupt metadata: " + err.Error())
+		a.SetMetadata(Metadata{})
+		return a.GetMetadata()
 	}
 	return m
 }
@@ -92,4 +90,18 @@ func (a *Api) GetRates(height int) []TokenRate {
 	var rates []TokenRate
 	a.GenericGetHeight(&rates, height, "rates")
 	return rates
+}
+
+func (a *Api) SetRates(height int, rates []TokenRate) {
+	a.GenericSetHeight(rates, height, "rates")
+}
+
+func (a *Api) GetMarket(height int) Market {
+	var market Market
+	a.GenericGetHeight(&market, height, "market")
+	return market
+}
+
+func (a *Api) SetMarket(height int, market Market) {
+	a.GenericSetHeight(&market, height, "market")
 }
