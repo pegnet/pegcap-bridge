@@ -7,7 +7,7 @@ The PegNet `Genesis` block is `206422`. Any height less than that is not support
 
 At block height `210330` the list of assets changes, removing XPD and XPT.
 
-The following block heights have intentionally missing data: 212122, 206522, 210000, 212000, 212001, 212002, 212003
+The following block heights have intentionally missing data: 212122, 206522, 210000, 212000, 212001, 212002, 212003. These will result in status code 500 responses with the message: `{"message":"missing data"}`.
 
 For the `rates` and `market` responses, the numbers are **64 bit floats** with precision of 8 decimals.
 
