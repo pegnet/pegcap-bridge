@@ -208,12 +208,14 @@ var Bounds = []Bound{
 }
 
 var BoundMap map[string]Bound
+var rng *rand.Rand
 
 func init() {
 	BoundMap = make(map[string]Bound)
 	for _, b := range Bounds {
 		BoundMap[b.Code] = b
 	}
+	rng = rand.New(rand.NewSource(time.Now().UnixNano()))
 }
 
 func startRates() []TokenRate {
@@ -259,8 +261,6 @@ func (a *Api) Generate(height int) {
 	}
 
 	a.Generate(height - 1)
-
-	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	m := a.GetMarket(height - 1)
 	if rng.Float64() < .25 {
