@@ -12,14 +12,14 @@ The following block heights have intentionally missing data: 212122, 206522, 210
 For the `rates` and `market` responses, the numbers are **64 bit floats** with precision of 8 decimals.
 
 
-## REST Methods
-### Errors
+# REST Methods
+## Errors
 
 Errors return a 500 code along with a descriptive JSON error of `{"message": "<error message>"}`.
 
 `:height` is an int between PegNet's genesis and the current block height. Other inputs will results in an error.
 
-#### /v1/heights
+## /v1/heights
 
 Returns the current height along with that block's unix timestamp. Also includes the genesis block.
 
@@ -32,7 +32,7 @@ Example Response:
 }
 ```
 
-#### /v1/asset/list/:height
+## /v1/asset/list/:height
 
 Returns an array of asset codes that are used at the given height.
 
@@ -41,7 +41,7 @@ Example Response:
 ["PEG","USD","EUR","JPY","GBP","CAD","CHF","INR","SGD","CNY","HKD","KRW","BRL","PHP","MXN","XAU","XAG","XPD","XPT","XBT","ETH","LTC","RVN","XBC","FCT","BNB","XLM","ADA","XMR","DASH","ZEC","DCR"]
 ```
 
-#### /v1/asset/names
+## /v1/asset/names
 
 Returns the full name of all known asset codes.
 
@@ -85,7 +85,7 @@ Example Response:
 }
 ```
 
-#### /v1/asset/name/:code
+## /v1/asset/name/:code
 
 Returns the full name of a specific asset code.
 
@@ -96,7 +96,7 @@ Example Response for `/v1/asset/name/USD`:
 }
 ```
 
-#### /v1/rates/:height
+## /v1/rates/:height
 
 Returns the asset rates for a specific height. 
 
@@ -138,7 +138,7 @@ Example Response:
 }
 ```
 
-#### /v1/market/:height
+## /v1/market/:height
 
 Returns the market data for a specific height.
 
