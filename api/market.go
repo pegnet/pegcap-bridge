@@ -8,7 +8,7 @@ import (
 )
 
 type MarketResponse struct {
-	Burnt  uint64
+	Burnt  float64
 	Supply map[string]float64
 	Volume map[string]float64
 }
@@ -29,7 +29,7 @@ func (a *Api) Market(c echo.Context) error {
 	var market MarketResponse
 	market.Supply = make(map[string]float64)
 	market.Volume = make(map[string]float64)
-	market.Burnt = rawmarket.Burnt
+	market.Burnt = Uint64ToFloat(rawmarket.Burnt)
 	for _, md := range rawmarket.Info {
 		if a.AssetExists(h, md.Name) {
 			market.Supply[md.Name] = Uint64ToFloat(md.Supply)
