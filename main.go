@@ -56,6 +56,7 @@ func main() {
 	e.GET("/v1/asset/name/:code", api.AssetName)
 
 	e.GET("/v1/heights", api.Heights)
+	e.GET("/v1/24hour/:height", api.OneDay)
 	e.GET("/v1/rates/:height", api.Rates)
 	e.GET("/v1/market/:height", api.Market)
 

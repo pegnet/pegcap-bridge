@@ -25,6 +25,10 @@ type MarketData struct {
 	Volume uint64
 }
 
+type Time struct {
+	Blocktime int
+}
+
 func SKey(bits ...string) []byte {
 	if len(bits) == 0 {
 		return []byte{}
@@ -104,4 +108,14 @@ func (a *Api) GetMarket(height int) Market {
 
 func (a *Api) SetMarket(height int, market Market) {
 	a.GenericSetHeight(&market, height, "market")
+}
+
+func (a *Api) GetTime(height int) Time {
+	var t Time
+	a.GenericGetHeight(&t, height, "Time")
+	return t
+}
+
+func (a *Api) SetTime(height int, t Time) {
+	a.GenericSetHeight(&t, height, "Time")
 }

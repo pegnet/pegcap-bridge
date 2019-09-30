@@ -98,7 +98,8 @@ Example Response for `/v1/asset/name/USD`:
 
 ## /v1/rates/:height
 
-Returns the asset rates for a specific height. 
+Returns the asset rates for a specific height. All rates use USD as base. An FCT rate of `5.6515013` 
+means that `1 FCT = 5.6515013 USD`.
 
 Example Response:
 ```json
@@ -140,7 +141,7 @@ Example Response:
 
 ## /v1/market/:height
 
-Returns the market data for a specific height.
+Returns the market data for a specific height. Burnt is the additional amount of pFCT created that block.
 
 Example Response:
 ```json
@@ -215,4 +216,13 @@ Example Response:
       "ZEC":14430.18929303
    }
 }
+```
+
+## /v1/24hour/:height
+
+Returns the approximate height 24 hours ago. Returns an error if 24 hours is earlier than the Genesis. 
+
+Example Response for `/v1/24hour/207766`:
+```json
+207622
 ```
