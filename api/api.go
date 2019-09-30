@@ -54,3 +54,7 @@ func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 	}
 	return hs, nil
 }
+
+func Uint64ToFloat(u uint64) float64 {
+	return float64(u) / 1e8
+}

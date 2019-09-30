@@ -9,8 +9,18 @@ import (
 )
 
 var names map[string]string
+var V1Exists map[string]bool
+var V2Exists map[string]bool
 
 func init() {
+	V1Exists = make(map[string]bool)
+	for _, a := range V1Assets {
+		V1Exists[a] = true
+	}
+	V2Exists = make(map[string]bool)
+	for _, a := range V2Assets {
+		V2Exists[a] = true
+	}
 	names = make(map[string]string)
 	names["PEG"] = "PegNet"
 	names["USD"] = "US Dollar"
@@ -114,6 +124,13 @@ var V2Assets = []string{
 	"DASH",
 	"ZEC",
 	"DCR",
+}
+
+func (api *Api) AssetExists(height int, asset string) bool {
+	if height >= V2 {
+		return V2Exists[asset]
+	}
+	return V1Exists[asset]
 }
 
 func (api *Api) AssetNames(c echo.Context) error {

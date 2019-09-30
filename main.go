@@ -33,7 +33,9 @@ func main() {
 	e := echo.New()
 
 	// Middleware
-	e.Use(middleware.Logger())
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Format: "${time_rfc3339_nano} method=${method}, status=${status}, uri=${uri}, error=${error}\n",
+	}))
 	//e.Logger.SetLevel(log.WARN)
 	e.Use(middleware.Recover())
 

@@ -9,6 +9,7 @@ import (
 )
 
 var Genesis = 206422
+var V2 = 210330
 
 func (api *Api) Heights(c echo.Context) error {
 
