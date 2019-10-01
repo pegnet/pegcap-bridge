@@ -8,11 +8,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+var translate map[string]string
 var names map[string]string
 var V1Exists map[string]bool
 var V2Exists map[string]bool
 
 func init() {
+	translate = make(map[string]string)
+	translate["XAU"] = "GOLD"
+	translate["XAG"] = "SILVER"
+	translate["XBC"] = "BCH"
+	translate["XBT"] = "BTC"
+
 	V1Exists = make(map[string]bool)
 	for _, a := range V1Assets {
 		V1Exists[a] = true
@@ -39,15 +46,15 @@ func init() {
 	names["BRL"] = "Brazil Real"
 	names["PHP"] = "Philippine Peso"
 	names["MXN"] = "Mexican Peso"
-	names["XAU"] = "Gold Troy Ounce"
-	names["XAG"] = "Silver Troy Ounce"
+	names["GOLD"] = "Gold Troy Ounce"
+	names["SILVER"] = "Silver Troy Ounce"
 	names["XPD"] = "Palladium Troy Ounce"
 	names["XPT"] = "Platinum Troy Ounce"
-	names["XBT"] = "Bitcoin"
+	names["BTC"] = "Bitcoin"
 	names["ETH"] = "Ethereum"
 	names["LTC"] = "Litecoin"
 	names["RVN"] = "Ravencoin"
-	names["XBC"] = "Bitcoin Cash"
+	names["BCH"] = "Bitcoin Cash"
 	names["FCT"] = "Factom"
 	names["BNB"] = "Binance Coin"
 	names["XLM"] = "Stellar"
@@ -74,15 +81,15 @@ var V1Assets = []string{
 	"BRL",
 	"PHP",
 	"MXN",
-	"XAU",
-	"XAG",
+	"GOLD",
+	"SILVER",
 	"XPD",
 	"XPT",
-	"XBT",
+	"BTC",
 	"ETH",
 	"LTC",
 	"RVN",
-	"XBC",
+	"BCH",
 	"FCT",
 	"BNB",
 	"XLM",
@@ -109,13 +116,13 @@ var V2Assets = []string{
 	"BRL",
 	"PHP",
 	"MXN",
-	"XAU",
-	"XAG",
-	"XBT",
+	"GOLD",
+	"SILVER",
+	"BTC",
 	"ETH",
 	"LTC",
 	"RVN",
-	"XBC",
+	"BCH",
 	"FCT",
 	"BNB",
 	"XLM",

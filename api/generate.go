@@ -104,13 +104,13 @@ var Bounds = []Bound{
 		Factor: 1100,
 	},
 	Bound{
-		Code:   "XAU",
+		Code:   "GOLD",
 		Min:    145000000000,
 		Max:    155000000000,
 		Factor: 55000000,
 	},
 	Bound{
-		Code:   "XAG",
+		Code:   "SILVER",
 		Min:    1686340000,
 		Max:    1961590000,
 		Factor: 1276683,
@@ -128,7 +128,7 @@ var Bounds = []Bound{
 		Factor: 25000000,
 	},
 	Bound{
-		Code:   "XBT",
+		Code:   "BTC",
 		Min:    900000000000,
 		Max:    1200000000000,
 		Factor: 900000000,
@@ -152,7 +152,7 @@ var Bounds = []Bound{
 		Factor: 10796,
 	},
 	Bound{
-		Code:   "XBC",
+		Code:   "BCH",
 		Min:    27387500000,
 		Max:    32267500000,
 		Factor: 39785821,

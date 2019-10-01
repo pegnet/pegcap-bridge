@@ -35,3 +35,23 @@ func (api *Api) Heights(c echo.Context) error {
 	js, _ := json.Marshal(heights)
 	return c.JSONBlob(http.StatusOK, js)
 }
+
+func (api *Api) Height(c echo.Context) error {
+	h, err := api.VerifyHeight(c)
+	if err != nil {
+		return err
+	}
+	var dblock factom.DBlock
+	dblock.Header.Height = uint32(h)
+	dblock.Get(api.C)
+
+	if !dblock.IsPopulated() {
+		return api.BadRequest("unable to contact endpoint")
+	}
+
+	height := make(map[string]int)
+	height["Blocktime"] = int(dblock.Header.Timestamp.Unix())
+
+	js, _ := json.Marshal(height)
+	return c.JSONBlob(http.StatusOK, js)
+}

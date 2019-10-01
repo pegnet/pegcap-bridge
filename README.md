@@ -38,7 +38,7 @@ Returns an array of asset codes that are used at the given height.
 
 Example Response:
 ```json
-["PEG","USD","EUR","JPY","GBP","CAD","CHF","INR","SGD","CNY","HKD","KRW","BRL","PHP","MXN","XAU","XAG","XPD","XPT","XBT","ETH","LTC","RVN","XBC","FCT","BNB","XLM","ADA","XMR","DASH","ZEC","DCR"]
+["PEG","USD","EUR","JPY","GBP","CAD","CHF","INR","SGD","CNY","HKD","KRW","BRL","PHP","MXN","GOLD","SILVER","XPD","XPT","BTC","ETH","LTC","RVN","BCH","FCT","BNB","XLM","ADA","XMR","DASH","ZEC","DCR"]
 ```
 
 ## /v1/asset/names
@@ -73,10 +73,10 @@ Example Response:
     "SGD":"Singapore Dollar",
     "TWD":"Taiwanese Dollar",
     "USD":"US Dollar",
-    "XAG":"Silver Troy Ounce",
-    "XAU":"Gold Troy Ounce",
-    "XBC":"Bitcoin Cash",
-    "XBT":"Bitcoin",
+    "SILVER":"Silver Troy Ounce",
+    "GOLD":"Gold Troy Ounce",
+    "BCH":"Bitcoin Cash",
+    "BTC":"Bitcoin",
     "XLM":"Stellar",
     "XMR":"Monero",
     "XPD":"Palladium Troy Ounce",
@@ -127,10 +127,10 @@ Example Response:
    "RVN":0.0356818,
    "SGD":0.72001767,
    "USD":1,
-   "XAG":18.23120613,
-   "XAU":1500.1900662,
-   "XBC":298.59537544,
-   "XBT":10501.35699081,
+   "SILVER":18.23120613,
+   "GOLD":1500.1900662,
+   "BCH":298.59537544,
+   "BTC":10501.35699081,
    "XLM":0.06424941,
    "XMR":78.52750335,
    "XPD":1550.28005521,
@@ -171,10 +171,10 @@ Example Response:
       "RVN":58.54796461,
       "SGD":1026.22660097,
       "USD":1430.52875042,
-      "XAG":23816.55580375,
-      "XAU":1766646.41049297,
-      "XBC":482377.36300028,
-      "XBT":22661673.33739648,
+      "SILVER":23816.55580375,
+      "GOLD":1766646.41049297,
+      "BCH":482377.36300028,
+      "BTC":22661673.33739648,
       "XLM":106.95788701,
       "XMR":105565.66219623,
       "XPD":1945850.07114154,
@@ -205,10 +205,10 @@ Example Response:
       "RVN":2.88722763,
       "SGD":93.43208389,
       "USD":71.21949977,
-      "XAG":94.21417265,
-      "XAU":64182.6422265,
-      "XBC":70168.58599648,
-      "XBT":1308154.90972472,
+      "SILVER":94.21417265,
+      "GOLD":64182.6422265,
+      "BCH":70168.58599648,
+      "BTC":1308154.90972472,
       "XLM":6.10595405,
       "XMR":10448.66820555,
       "XPD":112364.02807111,
