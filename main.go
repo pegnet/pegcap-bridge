@@ -60,6 +60,7 @@ func main() {
 	e.GET("/v1/24hour/:height", api.OneDay)
 	e.GET("/v1/rates/:height", api.Rates)
 	e.GET("/v1/market/:height", api.Market)
+	e.GET("/v1/all/:height", api.All)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":5151"))

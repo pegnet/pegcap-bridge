@@ -226,3 +226,25 @@ Example Response for `/v1/24hour/207766`:
 ```json
 207622
 ```
+
+
+## /v1/all/:height
+
+Returns a combination of height, market, and rates. 
+
+Example Response:
+```json
+{ 
+   "Blocktime":1568652300,
+   "Burnt":345.18424661,
+   "Supply":{ 
+      // ...
+   },
+   "Volume":{ 
+      // ...
+   },
+   "Rates":{ 
+      // ...
+   }
+}
+```
