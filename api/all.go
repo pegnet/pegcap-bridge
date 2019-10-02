@@ -9,6 +9,7 @@ import (
 )
 
 type All struct {
+	Height    int
 	Blocktime int
 	Burnt     float64
 	Supply    map[string]float64
@@ -27,6 +28,8 @@ func (a *Api) All(c echo.Context) error {
 	}
 
 	var all All
+
+	all.Height = h
 
 	rawrates := a.GetRates(h)
 	all.Rates = make(map[string]float64)

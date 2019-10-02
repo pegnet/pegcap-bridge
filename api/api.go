@@ -35,6 +35,15 @@ func (api *Api) GetRealHeight() int {
 
 func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 	h := c.Param("height")
+
+	if h == "current" {
+		cur := api.GetRealHeight()
+		if cur == -1 {
+			return -1, api.BadRequest("unable to contact endpoint")
+		}
+		return cur, nil
+	}
+
 	hs, err := strconv.Atoi(h)
 	if err != nil {
 		return -1, api.BadRequest("unable to parse height")
