@@ -16,7 +16,7 @@ var V2Exists map[string]bool
 func init() {
 	translate = make(map[string]string)
 	translate["XAU"] = "GOLD"
-	translate["XAG"] = "SILVER"
+	translate["XAG"] = "Silver"
 	translate["XBC"] = "BCH"
 	translate["XBT"] = "BTC"
 
@@ -29,108 +29,108 @@ func init() {
 		V2Exists[a] = true
 	}
 	names = make(map[string]string)
-	names["PEG"] = "PegNet"
-	names["USD"] = "US Dollar"
-	names["EUR"] = "Euro"
-	names["JPY"] = "Japanese Yen"
-	names["GBP"] = "Pound Sterling"
-	names["CAD"] = "Canadian Dollar"
-	names["CHF"] = "Swiss Franc"
-	names["INR"] = "Indian Rupee"
-	names["SGD"] = "Singapore Dollar"
-	names["CNY"] = "Chinese Yuan"
-	names["HKD"] = "Hong Kong Dollar"
-	names["TWD"] = "Taiwanese Dollar"
-	names["KRW"] = "Korean Won"
-	names["ARS"] = "Argentine Peso"
-	names["BRL"] = "Brazil Real"
-	names["PHP"] = "Philippine Peso"
-	names["MXN"] = "Mexican Peso"
-	names["GOLD"] = "Gold Troy Ounce"
-	names["SILVER"] = "Silver Troy Ounce"
-	names["XPD"] = "Palladium Troy Ounce"
-	names["XPT"] = "Platinum Troy Ounce"
-	names["BTC"] = "Bitcoin"
-	names["ETH"] = "Ethereum"
-	names["LTC"] = "Litecoin"
-	names["RVN"] = "Ravencoin"
-	names["BCH"] = "Bitcoin Cash"
-	names["FCT"] = "Factom"
-	names["BNB"] = "Binance Coin"
-	names["XLM"] = "Stellar"
-	names["ADA"] = "Cardano"
-	names["XMR"] = "Monero"
-	names["DASH"] = "Dash"
-	names["ZEC"] = "Zcash"
-	names["DCR"] = "Decred"
+	names["pPEG"] = "PegNet"
+	names["pUSD"] = "US Dollar"
+	names["pEUR"] = "Euro"
+	names["pJPY"] = "Japanese Yen"
+	names["pGBP"] = "Pound Sterling"
+	names["pCAD"] = "Canadian Dollar"
+	names["pCHF"] = "Swiss Franc"
+	names["pINR"] = "Indian Rupee"
+	names["pSGD"] = "Singapore Dollar"
+	names["pCNY"] = "Chinese Yuan"
+	names["pHKD"] = "Hong Kong Dollar"
+	names["pTWD"] = "Taiwanese Dollar"
+	names["pKRW"] = "Korean Won"
+	names["pARS"] = "Argentine Peso"
+	names["pBRL"] = "Brazil Real"
+	names["pPHP"] = "Philippine Peso"
+	names["pMXN"] = "Mexican Peso"
+	names["pGOLD"] = "Gold Troy Ounce"
+	names["pSilver"] = "Silver Troy Ounce"
+	names["pXPD"] = "Palladium Troy Ounce"
+	names["pXPT"] = "Platinum Troy Ounce"
+	names["pBTC"] = "Bitcoin"
+	names["pETH"] = "Ethereum"
+	names["pLTC"] = "Litecoin"
+	names["pRVN"] = "Ravencoin"
+	names["pBCH"] = "Bitcoin Cash"
+	names["pFCT"] = "Factom"
+	names["pBNB"] = "Binance Coin"
+	names["pXLM"] = "Stellar"
+	names["pADA"] = "Cardano"
+	names["pXMR"] = "Monero"
+	names["pDASH"] = "Dash"
+	names["pZEC"] = "Zcash"
+	names["pDCR"] = "Decred"
 }
 
 var V1Assets = []string{
-	"PEG",
-	"USD",
-	"EUR",
-	"JPY",
-	"GBP",
-	"CAD",
-	"CHF",
-	"INR",
-	"SGD",
-	"CNY",
-	"HKD",
-	"KRW",
-	"BRL",
-	"PHP",
-	"MXN",
-	"GOLD",
-	"SILVER",
-	"XPD",
-	"XPT",
-	"BTC",
-	"ETH",
-	"LTC",
-	"RVN",
-	"BCH",
-	"FCT",
-	"BNB",
-	"XLM",
-	"ADA",
-	"XMR",
-	"DASH",
-	"ZEC",
-	"DCR",
+	"pPEG",
+	"pUSD",
+	"pEUR",
+	"pJPY",
+	"pGBP",
+	"pCAD",
+	"pCHF",
+	"pINR",
+	"pSGD",
+	"pCNY",
+	"pHKD",
+	"pKRW",
+	"pBRL",
+	"pPHP",
+	"pMXN",
+	"pGOLD",
+	"pSilver",
+	"pXPD",
+	"pXPT",
+	"pBTC",
+	"pETH",
+	"pLTC",
+	"pRVN",
+	"pBCH",
+	"pFCT",
+	"pBNB",
+	"pXLM",
+	"pADA",
+	"pXMR",
+	"pDASH",
+	"pZEC",
+	"pDCR",
 }
 
 var V2Assets = []string{
-	"PEG",
-	"USD",
-	"EUR",
-	"JPY",
-	"GBP",
-	"CAD",
-	"CHF",
-	"INR",
-	"SGD",
-	"CNY",
-	"HKD",
-	"KRW",
-	"BRL",
-	"PHP",
-	"MXN",
-	"GOLD",
-	"SILVER",
-	"BTC",
-	"ETH",
-	"LTC",
-	"RVN",
-	"BCH",
-	"FCT",
-	"BNB",
-	"XLM",
-	"ADA",
-	"XMR",
-	"DASH",
-	"ZEC",
-	"DCR",
+	"pPEG",
+	"pUSD",
+	"pEUR",
+	"pJPY",
+	"pGBP",
+	"pCAD",
+	"pCHF",
+	"pINR",
+	"pSGD",
+	"pCNY",
+	"pHKD",
+	"pKRW",
+	"pBRL",
+	"pPHP",
+	"pMXN",
+	"pGOLD",
+	"pSilver",
+	"pBTC",
+	"pETH",
+	"pLTC",
+	"pRVN",
+	"pBCH",
+	"pFCT",
+	"pBNB",
+	"pXLM",
+	"pADA",
+	"pXMR",
+	"pDASH",
+	"pZEC",
+	"pDCR",
 }
 
 func (api *Api) AssetExists(height int, asset string) bool {
