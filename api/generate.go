@@ -14,7 +14,7 @@ type Bound struct {
 
 var Bounds = []Bound{
 	Bound{
-		Code:   "pPEG",
+		Code:   "PEG",
 		Min:    0,
 		Max:    0,
 		Factor: 0,
@@ -110,7 +110,7 @@ var Bounds = []Bound{
 		Factor: 55000000,
 	},
 	Bound{
-		Code:   "pSilver",
+		Code:   "pSILVER",
 		Min:    1686340000,
 		Max:    1961590000,
 		Factor: 1276683,

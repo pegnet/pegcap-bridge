@@ -29,7 +29,7 @@ func init() {
 		V2Exists[a] = true
 	}
 	names = make(map[string]string)
-	names["pPEG"] = "PegNet"
+	names["PEG"] = "PegNet"
 	names["pUSD"] = "US Dollar"
 	names["pEUR"] = "Euro"
 	names["pJPY"] = "Japanese Yen"
@@ -47,7 +47,7 @@ func init() {
 	names["pPHP"] = "Philippine Peso"
 	names["pMXN"] = "Mexican Peso"
 	names["pGOLD"] = "Gold Troy Ounce"
-	names["pSilver"] = "Silver Troy Ounce"
+	names["pSILVER"] = "Silver Troy Ounce"
 	names["pXPD"] = "Palladium Troy Ounce"
 	names["pXPT"] = "Platinum Troy Ounce"
 	names["pBTC"] = "Bitcoin"
@@ -66,7 +66,7 @@ func init() {
 }
 
 var V1Assets = []string{
-	"pPEG",
+	"PEG",
 	"pUSD",
 	"pEUR",
 	"pJPY",
@@ -82,7 +82,7 @@ var V1Assets = []string{
 	"pPHP",
 	"pMXN",
 	"pGOLD",
-	"pSilver",
+	"pSILVER",
 	"pXPD",
 	"pXPT",
 	"pBTC",
@@ -101,7 +101,7 @@ var V1Assets = []string{
 }
 
 var V2Assets = []string{
-	"pPEG",
+	"PEG",
 	"pUSD",
 	"pEUR",
 	"pJPY",
@@ -117,7 +117,7 @@ var V2Assets = []string{
 	"pPHP",
 	"pMXN",
 	"pGOLD",
-	"pSilver",
+	"pSILVER",
 	"pBTC",
 	"pETH",
 	"pLTC",
