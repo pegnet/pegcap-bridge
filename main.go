@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,6 +11,15 @@ import (
 )
 
 func main() {
+
+	var pegnet, factomd string
+	var port int
+
+	flag.StringVar(&pegnet, "pegnet", "http://localhost:8070", "location of the pegnetd endpoint (no trailing slash)")
+	flag.StringVar(&factomd, "factom", "http://localhost:8088/v2", "location of the factomd endpoint (with trailing /v2)")
+	flag.IntVar(&port, "port", 5151, "port to serve on")
+	flag.Parse()
+
 	// Echo instance
 	e := echo.New()
 
@@ -26,7 +37,7 @@ func main() {
 	}))
 
 	api := new(api.Api)
-	api.Init("http://localhost:8070", "http://spoon:8088/v2")
+	api.Init(pegnet, factomd)
 
 	// Routes
 	e.GET("/", noexist)
@@ -35,7 +46,7 @@ func main() {
 	e.GET("/v1/all/:height", api.All)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":5151"))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))
 }
 
 // Handler
