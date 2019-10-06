@@ -4,40 +4,53 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/Factom-Asset-Tokens/factom"
 	"github.com/labstack/echo/v4"
-	"github.com/syndtr/goleveldb/leveldb"
+	"github.com/pegnet/pegnetd/srv"
 )
 
 type Api struct {
-	DB *leveldb.DB
-	C  *factom.Client
+	Cli    *srv.Client
+	Factom *factom.Client
 }
 
 func (api *Api) BadRequest(message string) *echo.HTTPError {
 	return &echo.HTTPError{Code: http.StatusInternalServerError, Message: message}
 }
 
-func (api *Api) Init(factomd string) {
-	api.C = &factom.Client{FactomdServer: factomd}
+func (api *Api) Init(pegnetd string, factomd string) {
+	api.Cli = srv.NewClient()
+	api.Cli.PegnetdServer = pegnetd
+	api.Factom = &factom.Client{FactomdServer: factomd}
 }
 
-func (api *Api) GetRealHeight() int {
-	var h factom.Heights
-	err := h.Get(api.C)
+func (api *Api) GetBlockTime(height uint32) (time.Time, error) {
+	dblock := new(factom.DBlock)
+	dblock.Height = height
+	if err := dblock.Get(api.Factom); err != nil {
+		return time.Time{}, err
+	}
+
+	return dblock.Timestamp, nil
+}
+
+func (api *Api) GetSyncHeight() int {
+	var res srv.ResultGetSyncStatus
+	err := api.Cli.Request("get-sync-status", nil, &res)
 	if err != nil {
 		fmt.Println(err)
 		return -1
 	}
-	return int(h.DirectoryBlock)
+	return int(res.Sync)
 }
 
 func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 	h := c.Param("height")
 
 	if h == "current" {
-		cur := api.GetRealHeight()
+		cur := api.GetSyncHeight()
 		if cur == -1 {
 			return -1, api.BadRequest("unable to contact endpoint")
 		}
@@ -49,11 +62,7 @@ func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 		return -1, api.BadRequest("unable to parse height")
 	}
 
-	if hs < Genesis {
-		return -1, api.BadRequest("invalid height")
-	}
-
-	cur := api.GetRealHeight()
+	cur := api.GetSyncHeight()
 	if cur == -1 {
 		return -1, api.BadRequest("unable to contact endpoint")
 	}

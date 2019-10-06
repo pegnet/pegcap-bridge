@@ -6,15 +6,55 @@ import (
 
 	"github.com/Factom-Asset-Tokens/factom"
 	"github.com/labstack/echo/v4"
+	"github.com/pegnet/pegnetd/fat/fat2"
+	"github.com/pegnet/pegnetd/node/pegnet"
+	"github.com/pegnet/pegnetd/srv"
+)
+
+const (
+	VOLUME int = iota
+	VOLUMEIN
+	VOLUMEOUT
+	VOLUMETX
+	SUPPLY
+	PRICE
 )
 
 type All struct {
 	Height    int
-	Blocktime int
+	Blocktime int64
 	Burnt     float64
-	Supply    map[string]float64
-	Volume    map[string]float64
-	Rates     map[string]float64
+	Data      map[string][6]float64
+}
+
+func (a *Api) _getStats(height uint32) (*pegnet.Stats, error) {
+	params := &srv.ParamsGetStats{Height: &height}
+	var res pegnet.Stats
+	err := a.Cli.Request("get-stats", params, &res)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+
+}
+
+func (a *Api) _getRates(height uint32) (*srv.ResultPegnetTickerMap, error) {
+	var res srv.ResultPegnetTickerMap
+	err := a.Cli.Request("get-pegnet-rates", srv.ParamsGetPegnetRates{Height: &height}, &res)
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (a *Api) _blockTime(height uint32) (int64, error) {
+	var dblock factom.DBlock
+	dblock.Height = height
+	if err := dblock.Get(a.Factom); err != nil {
+		return 0, a.BadRequest("unable to contact factomd endpoint: " + err.Error())
+	}
+
+	return dblock.Timestamp.Unix(), nil
 }
 
 func (a *Api) All(c echo.Context) error {
@@ -22,45 +62,106 @@ func (a *Api) All(c echo.Context) error {
 	if err != nil {
 		return err
 	}
-	a.Generate(h)
-	if Outage[h] {
-		return a.BadRequest("missing data")
+
+	stats, err := a._getStats(uint32(h))
+	if err != nil {
+		return a.BadRequest("unable to retrieve stats: " + err.Error())
+	}
+
+	rates, err := a._getRates(uint32(h))
+	if err != nil {
+		return a.BadRequest("unable to retrieve rates: " + err.Error())
+	}
+
+	bt, err := a._blockTime(uint32(h))
+	if err != nil {
+		return err
 	}
 
 	var all All
-
 	all.Height = h
+	all.Burnt = Uint64ToFloat(stats.Burns)
+	all.Blocktime = bt
+	all.Data = make(map[string][6]float64)
 
-	rawrates := a.GetRates(h)
-	all.Rates = make(map[string]float64)
-	for _, r := range rawrates {
-		if a.AssetExists(h, r.Name) {
-			all.Rates[r.Name] = Uint64ToFloat(r.Rate)
-		}
+	for k, v := range map[fat2.PTicker]uint64(*rates) {
+		key := Trans(k.String())
+		m := all.Data[key]
+		m[PRICE] = Uint64ToFloat(v)
+		all.Data[key] = m
 	}
 
-	rawmarket := a.GetMarket(h)
-
-	all.Supply = make(map[string]float64)
-	all.Volume = make(map[string]float64)
-	all.Burnt = Uint64ToFloat(rawmarket.Burnt)
-	for _, md := range rawmarket.Info {
-		if a.AssetExists(h, md.Name) {
-			all.Supply[md.Name] = Uint64ToFloat(md.Supply)
-			all.Volume[md.Name] = Uint64ToFloat(md.Volume)
-		}
+	for k, v := range stats.Volume {
+		k = Trans(k)
+		m := all.Data[k]
+		m[VOLUME] = Uint64ToFloat(v)
+		all.Data[k] = m
 	}
 
-	var dblock factom.DBlock
-	dblock.Header.Height = uint32(h)
-	dblock.Get(a.C)
-
-	if !dblock.IsPopulated() {
-		return a.BadRequest("unable to contact endpoint")
+	for k, v := range stats.VolumeIn {
+		k = Trans(k)
+		m := all.Data[k]
+		m[VOLUMEIN] = Uint64ToFloat(v)
+		all.Data[k] = m
+	}
+	for k, v := range stats.VolumeOut {
+		k = Trans(k)
+		m := all.Data[k]
+		m[VOLUMEOUT] = Uint64ToFloat(v)
+		all.Data[k] = m
 	}
 
-	all.Blocktime = int(dblock.Header.Timestamp.Unix())
+	for k, v := range stats.VolumeTx {
+		k = Trans(k)
+		m := all.Data[k]
+		m[VOLUMETX] = Uint64ToFloat(v)
+		all.Data[k] = m
+	}
+
+	for k, v := range stats.Supply {
+		k = Trans(k)
+		m := all.Data[k]
+		m[SUPPLY] = Uint64ToFloat(uint64(v))
+		all.Data[k] = m
+	}
 
 	js, _ := json.Marshal(all)
 	return c.JSONBlob(http.StatusOK, js)
+	/*
+		var all All
+
+		all.Height = h
+
+		rawrates := a.GetRates(h)
+		all.Rates = make(map[string]float64)
+		for _, r := range rawrates {
+			if a.AssetExists(h, r.Name) {
+				all.Rates[r.Name] = Uint64ToFloat(r.Rate)
+			}
+		}
+
+		rawmarket := a.GetMarket(h)
+
+		all.Supply = make(map[string]float64)
+		all.Volume = make(map[string]float64)
+		all.Burnt = Uint64ToFloat(rawmarket.Burnt)
+		for _, md := range rawmarket.Info {
+			if a.AssetExists(h, md.Name) {
+				all.Supply[md.Name] = Uint64ToFloat(md.Supply)
+				all.Volume[md.Name] = Uint64ToFloat(md.Volume)
+			}
+		}
+
+		var dblock factom.DBlock
+		dblock.Height = uint32(h)
+		dblock.Get(a.C)
+
+		if !dblock.IsPopulated() {
+			return a.BadRequest("unable to contact endpoint")
+		}
+
+		all.Blocktime = int(dblock.Timestamp.Unix())
+
+		js, _ := json.Marshal(all)
+		return c.JSONBlob(http.StatusOK, js) */
 }

@@ -3,31 +3,20 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
 var translate map[string]string
 var names map[string]string
-var V1Exists map[string]bool
-var V2Exists map[string]bool
 
 func init() {
 	translate = make(map[string]string)
-	translate["XAU"] = "GOLD"
-	translate["XAG"] = "Silver"
-	translate["XBC"] = "BCH"
-	translate["XBT"] = "BTC"
+	translate["pXAU"] = "pGOLD"
+	translate["pXAG"] = "pSILVER"
+	translate["pXBC"] = "pBCH"
+	translate["pXBT"] = "pBTC"
 
-	V1Exists = make(map[string]bool)
-	for _, a := range V1Assets {
-		V1Exists[a] = true
-	}
-	V2Exists = make(map[string]bool)
-	for _, a := range V2Assets {
-		V2Exists[a] = true
-	}
 	names = make(map[string]string)
 	names["PEG"] = "PegNet"
 	names["pUSD"] = "US Dollar"
@@ -65,109 +54,14 @@ func init() {
 	names["pDCR"] = "Decred"
 }
 
-var V1Assets = []string{
-	"PEG",
-	"pUSD",
-	"pEUR",
-	"pJPY",
-	"pGBP",
-	"pCAD",
-	"pCHF",
-	"pINR",
-	"pSGD",
-	"pCNY",
-	"pHKD",
-	"pKRW",
-	"pBRL",
-	"pPHP",
-	"pMXN",
-	"pGOLD",
-	"pSILVER",
-	"pXPD",
-	"pXPT",
-	"pBTC",
-	"pETH",
-	"pLTC",
-	"pRVN",
-	"pBCH",
-	"pFCT",
-	"pBNB",
-	"pXLM",
-	"pADA",
-	"pXMR",
-	"pDASH",
-	"pZEC",
-	"pDCR",
-}
-
-var V2Assets = []string{
-	"PEG",
-	"pUSD",
-	"pEUR",
-	"pJPY",
-	"pGBP",
-	"pCAD",
-	"pCHF",
-	"pINR",
-	"pSGD",
-	"pCNY",
-	"pHKD",
-	"pKRW",
-	"pBRL",
-	"pPHP",
-	"pMXN",
-	"pGOLD",
-	"pSILVER",
-	"pBTC",
-	"pETH",
-	"pLTC",
-	"pRVN",
-	"pBCH",
-	"pFCT",
-	"pBNB",
-	"pXLM",
-	"pADA",
-	"pXMR",
-	"pDASH",
-	"pZEC",
-	"pDCR",
-}
-
-func (api *Api) AssetExists(height int, asset string) bool {
-	if height >= V2 {
-		return V2Exists[asset]
-	}
-	return V1Exists[asset]
-}
-
 func (api *Api) AssetNames(c echo.Context) error {
 	js, _ := json.Marshal(names)
 	return c.JSONBlob(http.StatusOK, js)
 }
 
-func (api *Api) AssetList(c echo.Context) error {
-	raw := c.Param("height")
-	height, err := strconv.Atoi(raw)
-	if err != nil {
-		return api.BadRequest("invalid height")
+func Trans(key string) string {
+	if n, ok := translate[key]; ok {
+		return n
 	}
-
-	if height >= 210330 {
-		js, _ := json.Marshal(V2Assets)
-		return c.JSONBlob(http.StatusOK, js)
-	}
-
-	js, _ := json.Marshal(V1Assets)
-	return c.JSONBlob(http.StatusOK, js)
-}
-
-func (api *Api) AssetName(c echo.Context) error {
-	name, ok := names[c.Param("code")]
-	if !ok {
-		return api.BadRequest("invalid code")
-	}
-	oneoff := make(map[string]string)
-	oneoff[c.Param("code")] = name
-	js, _ := json.Marshal(oneoff)
-	return c.JSONBlob(http.StatusOK, js)
+	return key
 }
