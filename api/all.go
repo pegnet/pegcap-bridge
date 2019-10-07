@@ -127,41 +127,4 @@ func (a *Api) All(c echo.Context) error {
 
 	js, _ := json.Marshal(all)
 	return c.JSONBlob(http.StatusOK, js)
-	/*
-		var all All
-
-		all.Height = h
-
-		rawrates := a.GetRates(h)
-		all.Rates = make(map[string]float64)
-		for _, r := range rawrates {
-			if a.AssetExists(h, r.Name) {
-				all.Rates[r.Name] = Uint64ToFloat(r.Rate)
-			}
-		}
-
-		rawmarket := a.GetMarket(h)
-
-		all.Supply = make(map[string]float64)
-		all.Volume = make(map[string]float64)
-		all.Burnt = Uint64ToFloat(rawmarket.Burnt)
-		for _, md := range rawmarket.Info {
-			if a.AssetExists(h, md.Name) {
-				all.Supply[md.Name] = Uint64ToFloat(md.Supply)
-				all.Volume[md.Name] = Uint64ToFloat(md.Volume)
-			}
-		}
-
-		var dblock factom.DBlock
-		dblock.Height = uint32(h)
-		dblock.Get(a.C)
-
-		if !dblock.IsPopulated() {
-			return a.BadRequest("unable to contact endpoint")
-		}
-
-		all.Blocktime = int(dblock.Timestamp.Unix())
-
-		js, _ := json.Marshal(all)
-		return c.JSONBlob(http.StatusOK, js) */
 }
