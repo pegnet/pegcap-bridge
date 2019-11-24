@@ -70,7 +70,10 @@ func (a *Api) All(c echo.Context) error {
 
 	rates, err := a._getRates(uint32(h))
 	if err != nil {
-		return a.BadRequest("unable to retrieve rates: " + err.Error())
+		rates = nil
+		if err.Error() != "jsonrpc2.Error{Code:-32809, Message:\"Not Found\", Data:\"could not find what you were looking for\"}" {
+			return a.BadRequest("unable to retrieve rates: " + err.Error())
+		}
 	}
 
 	bt, err := a._blockTime(uint32(h))
@@ -84,11 +87,13 @@ func (a *Api) All(c echo.Context) error {
 	all.Blocktime = bt
 	all.Data = make(map[string][6]float64)
 
-	for k, v := range map[fat2.PTicker]uint64(*rates) {
-		key := Trans(k.String())
-		m := all.Data[key]
-		m[PRICE] = Uint64ToFloat(v)
-		all.Data[key] = m
+	if rates != nil {
+		for k, v := range map[fat2.PTicker]uint64(*rates) {
+			key := Trans(k.String())
+			m := all.Data[key]
+			m[PRICE] = Uint64ToFloat(v)
+			all.Data[key] = m
+		}
 	}
 
 	for k, v := range stats.Volume {
