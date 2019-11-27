@@ -73,6 +73,13 @@ func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 	return hs, nil
 }
 
+func (api *Api) VerifyAsset(c echo.Context) (string, bool) {
+	a := c.Param("asset")
+	fixed := RTrans(a)
+	_, ok := names[fixed]
+	return fixed, ok
+}
+
 func Uint64ToFloat(u uint64) float64 {
 	return float64(u) / 1e8
 }

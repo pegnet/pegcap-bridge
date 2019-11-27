@@ -44,6 +44,8 @@ func main() {
 	e.GET("/v1/asset/names", api.AssetNames)
 	e.GET("/v1/24hour/:height", api.OneDay)
 	e.GET("/v1/all/:height", api.All)
+	e.GET("/v1/rich/:asset", api.RichList)
+	e.GET("/v1/rich", api.GlobalRichList)
 
 	// Start server
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", port)))

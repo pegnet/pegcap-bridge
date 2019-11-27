@@ -8,6 +8,7 @@ import (
 )
 
 var translate map[string]string
+var rtranslate map[string]string
 var names map[string]string
 
 func init() {
@@ -16,6 +17,12 @@ func init() {
 	translate["pXAG"] = "pSILVER"
 	translate["pXBC"] = "pBCH"
 	translate["pXBT"] = "pBTC"
+
+	rtranslate = make(map[string]string)
+	rtranslate["pGOLD"] = "pXAU"
+	rtranslate["pSILVER"] = "pXAG"
+	rtranslate["pBCH"] = "pXBC"
+	rtranslate["pBTC"] = "pXBT"
 
 	names = make(map[string]string)
 	names["PEG"] = "PegNet"
@@ -61,6 +68,13 @@ func (api *Api) AssetNames(c echo.Context) error {
 
 func Trans(key string) string {
 	if n, ok := translate[key]; ok {
+		return n
+	}
+	return key
+}
+
+func RTrans(key string) string {
+	if n, ok := rtranslate[key]; ok {
 		return n
 	}
 	return key
