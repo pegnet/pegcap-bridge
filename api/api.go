@@ -76,7 +76,7 @@ func (api *Api) VerifyHeight(c echo.Context) (int, error) {
 func (api *Api) VerifyAsset(c echo.Context) (string, bool) {
 	a := c.Param("asset")
 	fixed := RTrans(a)
-	_, ok := names[fixed]
+	_, ok := names[a]
 	return fixed, ok
 }
 

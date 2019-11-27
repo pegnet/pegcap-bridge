@@ -146,8 +146,6 @@ github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORN
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0 h1:45sCR5RtlFHMR4UwH9sdQ5TC8v0qDQCHnXt+kaKSTVE=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
-github.com/labstack/echo v3.3.10+incompatible h1:pGRcYk231ExFAyoAjAfD85kQzRJCRI8bbnE7CX5OEgg=
-github.com/labstack/echo v3.3.10+incompatible/go.mod h1:0INS7j/VjnFxD4E2wkz67b8cVwCLbBmJyDaka6Cmk1s=
 github.com/labstack/echo/v4 v4.1.10 h1:/yhIpO50CBInUbE/nHJtGIyhBv0dJe2cDAYxc3V3uMo=
 github.com/labstack/echo/v4 v4.1.10/go.mod h1:i541M3Fj6f76NZtHSj7TXnyM8n2gaodfvfxNnFqi74g=
 github.com/labstack/gommon v0.3.0 h1:JEeO0bvc78PKdyHxloTKiF8BD5iGrH8T6MSeGvSgob0=
@@ -188,8 +186,6 @@ github.com/pegnet/OracleRecord v0.0.2/go.mod h1:VrY7Shn4oSCli47CsUYBFjH68IenGYtn
 github.com/pegnet/pegnet v0.0.2/go.mod h1:FUyEs8fyLOzPXZgyqXcqiOhQi58loNtujykIbxxoKbQ=
 github.com/pegnet/pegnet v0.1.0-rc4.0.20191002204629-5a6fd621ca60 h1:LhihCN5xwqmWoZqt3Hd34njIbXe7d6jNP2K8MJinI+U=
 github.com/pegnet/pegnet v0.1.0-rc4.0.20191002204629-5a6fd621ca60/go.mod h1:sC7efuGlr6+ithvzL2v76u7AA/9JagWaweAv7UYu2dk=
-github.com/pegnet/pegnetd v0.1.0 h1:ANX2rdPvy6JwTUUo2fHx2Pfu7PNn4BYmtFjFpEgPQJY=
-github.com/pegnet/pegnetd v0.1.0/go.mod h1:ArfRaVXzKqOyBQMm4onNh1g17LGN9IEhQs4JcpJH8YM=
 github.com/pegnet/pegnetd v0.1.1-0.20191006111112-26b4a7a68530 h1:ie7iBJKVHoiakEXDRb6eWk+1YhhI8XpmjxNTsI9pw+g=
 github.com/pegnet/pegnetd v0.1.1-0.20191006111112-26b4a7a68530/go.mod h1:ArfRaVXzKqOyBQMm4onNh1g17LGN9IEhQs4JcpJH8YM=
 github.com/pelletier/go-toml v1.2.0 h1:T5zMGML61Wp+FlcbWjRDT7yAxhJNAiPPLOFECq181zc=
@@ -250,8 +246,6 @@ github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6Kllzaw
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasttemplate v1.0.1 h1:tY9CJiPnMXf1ERmG2EyK7gNUd+c6RKGD0IfU8WdUSz8=
 github.com/valyala/fasttemplate v1.0.1/go.mod h1:UQGH1tvbgY+Nz5t2n7tXsz52dQxojPUpymEIMZ47gx8=
-github.com/whosoup/factom v0.3.5 h1:MWNj6m6NpqeSipsF0lEw8FE7vL1g5LUo36V4LxpLYGk=
-github.com/whosoup/factom v0.3.5/go.mod h1:HJXoRrIDA+wyE97HTRLEFHWREH05gri81SqczUdjzaY=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 github.com/zpatrick/go-config v0.0.0-20190509173111-460869022dbd h1:bsSuySuIt8skjkeqnMk+/fmSa7GrSljzfqiqW+b4Svs=
