@@ -21,6 +21,12 @@ type ResultGlobalRichList struct {
 	Equiv   uint64 `json:"pusd"`
 }
 
+type ReturnRichList struct {
+	Address string  `json:"address"`
+	Amount  float64 `json:"amount,omitempty"`
+	Equiv   float64 `json:"pusd"`
+}
+
 func (a *Api) _getRichList(asset string) ([]ResultRichList, error) {
 	var res []ResultRichList
 	err := a.Cli.Request("get-rich-list", ParamsRichList{Asset: asset, Count: 100}, &res)
@@ -43,7 +49,16 @@ func (api *Api) GlobalRichList(c echo.Context) error {
 	if err != nil {
 		return api.BadRequest("unable to contact endpoint: " + err.Error())
 	}
-	js, _ := json.Marshal(h)
+
+	res := make([]ReturnRichList, 0, len(h))
+	for _, rich := range h {
+		res = append(res, ReturnRichList{
+			Address: rich.Address,
+			Equiv:   Uint64ToFloat(rich.Equiv),
+		})
+	}
+
+	js, _ := json.Marshal(res)
 	return c.JSONBlob(http.StatusOK, js)
 }
 
@@ -57,6 +72,15 @@ func (api *Api) RichList(c echo.Context) error {
 	if err != nil {
 		return api.BadRequest("unable to contact endpoint: " + err.Error())
 	}
-	js, _ := json.Marshal(h)
+
+	res := make([]ReturnRichList, 0, len(h))
+	for _, rich := range h {
+		res = append(res, ReturnRichList{
+			Address: rich.Address,
+			Amount:  Uint64ToFloat(rich.Amount),
+			Equiv:   Uint64ToFloat(rich.Equiv),
+		})
+	}
+	js, _ := json.Marshal(res)
 	return c.JSONBlob(http.StatusOK, js)
 }
