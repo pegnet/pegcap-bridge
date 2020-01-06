@@ -21,10 +21,11 @@ const (
 )
 
 type All struct {
-	Height    int
-	Blocktime int64
-	Burnt     float64
-	Data      map[string][6]float64
+	Height           int
+	Blocktime        int64
+	Burnt            float64
+	TotalConversions float64
+	Data             map[string][6]float64
 }
 
 func (a *Api) _getStats(height uint32) (*pegnet.Stats, error) {
@@ -114,6 +115,8 @@ func (a *Api) All(c echo.Context) error {
 		m := all.Data[k]
 		m[VOLUMEOUT] = Uint64ToFloat(v)
 		all.Data[k] = m
+
+		all.TotalConversions += m[VOLUMEOUT] * m[PRICE]
 	}
 
 	for k, v := range stats.VolumeTx {
