@@ -87,6 +87,7 @@ func (a *Api) All(c echo.Context) error {
 	all.Burnt = Uint64ToFloat(stats.Burns)
 	all.Blocktime = bt
 	all.Data = make(map[string][6]float64)
+	all.TotalConversions = Uint64ToFloat(stats.ConversionTotal)
 
 	if rates != nil {
 		for k, v := range map[fat2.PTicker]uint64(*rates) {
@@ -115,8 +116,6 @@ func (a *Api) All(c echo.Context) error {
 		m := all.Data[k]
 		m[VOLUMEOUT] = Uint64ToFloat(v)
 		all.Data[k] = m
-
-		all.TotalConversions += m[VOLUMEOUT] * m[PRICE]
 	}
 
 	for k, v := range stats.VolumeTx {
