@@ -1,5 +1,5 @@
 # Dummy Bridge
-Middleware for the link between Factomize and Pegnet. Generates dummy data.
+Middleware for the link between PNMC and PegNet.
 
 ## Data
 
@@ -7,9 +7,7 @@ The PegNet `Genesis` block is `206422`. Any height less than that is not support
 
 At block height `210330` the list of assets changes, removing XPD and XPT.
 
-The following block heights have intentionally missing data: 212122, 206522, 210000, 212000, 212001, 212002, 212003. These will result in status code 500 responses with the message: `{"message":"missing data"}`.
-
-For the `rates` and `market` responses, the numbers are **64 bit floats** with precision of 8 decimals.
+`:height` is either an int between PegNet's genesis and the current block height, or the string `current` which will use the most recent block. Other inputs will results in an error.
 
 
 # REST Methods
@@ -17,29 +15,7 @@ For the `rates` and `market` responses, the numbers are **64 bit floats** with p
 
 Errors return a 500 code along with a descriptive JSON error of `{"message": "<error message>"}`.
 
-`:height` is an int between PegNet's genesis and the current block height. Other inputs will results in an error.
 
-## /v1/heights
-
-Returns the current height along with that block's unix timestamp. Also includes the genesis block.
-
-Example Response:
-```json
-{
-    "Genesis":206422,
-    "Current":212127,
-    "Blocktime":1569766920
-}
-```
-
-## /v1/asset/list/:height
-
-Returns an array of asset codes that are used at the given height.
-
-Example Response:
-```json
-["PEG","USD","EUR","JPY","GBP","CAD","CHF","INR","SGD","CNY","HKD","KRW","BRL","PHP","MXN","GOLD","SILVER","XPD","XPT","BTC","ETH","LTC","RVN","BCH","FCT","BNB","XLM","ADA","XMR","DASH","ZEC","DCR"]
-```
 
 ## /v1/asset/names
 
@@ -47,176 +23,49 @@ Returns the full name of all known asset codes.
 
 Example Response:
 ```json
-{ 
-    "ADA":"Cardano",
-    "ARS":"Argentine Peso",
-    "BNB":"Binance Coin",
-    "BRL":"Brazil Real",
-    "CAD":"Canadian Dollar",
-    "CHF":"Swiss Franc",
-    "CNY":"Chinese Yuan",
-    "DASH":"Dash",
-    "DCR":"Decred",
-    "ETH":"Ethereum",
-    "EUR":"Euro",
-    "FCT":"Factom",
-    "GBP":"Pound Sterling",
-    "HKD":"Hong Kong Dollar",
-    "INR":"Indian Rupee",
-    "JPY":"Japanese Yen",
-    "KRW":"Korean Won",
-    "LTC":"Litecoin",
-    "MXN":"Mexican Peso",
-    "PEG":"PegNet",
-    "PHP":"Philippine Peso",
-    "RVN":"Ravencoin",
-    "SGD":"Singapore Dollar",
-    "TWD":"Taiwanese Dollar",
-    "USD":"US Dollar",
-    "SILVER":"Silver Troy Ounce",
-    "GOLD":"Gold Troy Ounce",
-    "BCH":"Bitcoin Cash",
-    "BTC":"Bitcoin",
-    "XLM":"Stellar",
-    "XMR":"Monero",
-    "XPD":"Palladium Troy Ounce",
-    "XPT":"Platinum Troy Ounce",
-    "ZEC":"Zcash"
-}
-```
-
-## /v1/asset/name/:code
-
-Returns the full name of a specific asset code.
-
-Example Response for `/v1/asset/name/USD`:
-```json
 {
-    "USD":"US Dollar"
+    "PEG":"PegNet",
+    "pADA":"Cardano",
+    "pARS":"Argentine Peso",
+    "pBCH":"Bitcoin Cash",
+    "pBNB":"Binance Coin",
+    "pBRL":"Brazil Real",
+    "pBTC":"Bitcoin",
+    "pCAD":"Canadian Dollar",
+    "pCHF":"Swiss Franc",
+    "pCNY":"Chinese Yuan",
+    "pDASH":"Dash",
+    "pDCR":"Decred",
+    "pETH":"Ethereum",
+    "pEUR":"Euro",
+    "pFCT":"Factom",
+    "pGBP":"Pound Sterling",
+    "pGOLD":"Gold Troy Ounce",
+    "pHKD":"Hong Kong Dollar",
+    "pINR":"Indian Rupee",
+    "pJPY":"Japanese Yen",
+    "pKRW":"Korean Won",
+    "pLTC":"Litecoin",
+    "pMXN":"Mexican Peso",
+    "pPHP":"Philippine Peso",
+    "pRVN":"Ravencoin",
+    "pSGD":"Singapore Dollar",
+    "pSILVER":"Silver Troy Ounce",
+    "pTWD":"Taiwanese Dollar",
+    "pUSD":"US Dollar",
+    "pXLM":"Stellar",
+    "pXMR":"Monero",
+    "pXPD":"Palladium Troy Ounce",
+    "pXPT":"Platinum Troy Ounce",
+    "pZEC":"Zcash"
 }
 ```
-
-## /v1/rates/:height
 
 Returns the asset rates for a specific height. All rates use USD as base. An FCT rate of `5.6515013` 
 means that `1 FCT = 5.6515013 USD`.
 
-Example Response:
-```json
-{ 
-   "ADA":0.04794587,
-   "BNB":24.37402664,
-   "BRL":0.23998317,
-   "CAD":0.74991207,
-   "CHF":1.01502128,
-   "CNY":0.13850009,
-   "DASH":87.60382102,
-   "DCR":24.36121272,
-   "ETH":179.86516646,
-   "EUR":1.12485646,
-   "FCT":5.6515013,
-   "GBP":1.14982772,
-   "HKD":0.12749848,
-   "INR":0.01374897,
-   "JPY":0.00939842,
-   "KRW":0.00077527,
-   "LTC":70.61326566,
-   "MXN":0.05049019,
-   "PEG":0,
-   "PHP":0.0192035,
-   "RVN":0.0356818,
-   "SGD":0.72001767,
-   "USD":1,
-   "SILVER":18.23120613,
-   "GOLD":1500.1900662,
-   "BCH":298.59537544,
-   "BTC":10501.35699081,
-   "XLM":0.06424941,
-   "XMR":78.52750335,
-   "XPD":1550.28005521,
-   "XPT":99.25,
-   "ZEC":49.26302176
-}
-```
-
-## /v1/market/:height
 
 Returns the market data for a specific height. Burnt is the additional amount of pFCT created that block.
-
-Example Response:
-```json
-{ 
-   "Burnt":345.18424661,
-   "Supply":{ 
-      "ADA":118.28260508,
-      "BNB":56904.86664787,
-      "BRL":301.83408013,
-      "CAD":1095.89729937,
-      "CHF":1385.46577659,
-      "CNY":194.13177913,
-      "DASH":156673.67219147,
-      "DCR":26092.0461741,
-      "ETH":258113.96044042,
-      "EUR":1529.07384548,
-      "FCT":11909.55299106,
-      "GBP":2262.28967276,
-      "HKD":180.89861775,
-      "INR":30.46748947,
-      "JPY":12.91986324,
-      "KRW":1.73511295,
-      "LTC":115817.67512238,
-      "MXN":63.19019873,
-      "PEG":0,
-      "PHP":41.72209138,
-      "RVN":58.54796461,
-      "SGD":1026.22660097,
-      "USD":1430.52875042,
-      "SILVER":23816.55580375,
-      "GOLD":1766646.41049297,
-      "BCH":482377.36300028,
-      "BTC":22661673.33739648,
-      "XLM":106.95788701,
-      "XMR":105565.66219623,
-      "XPD":1945850.07114154,
-      "XPT":973352.21987128,
-      "ZEC":105276.11512017
-   },
-   "Volume":{ 
-      "ADA":16.18870466,
-      "BNB":5711.5387908,
-      "BRL":35.04963485,
-      "CAD":60.49312431,
-      "CHF":51.64007972,
-      "CNY":22.38208789,
-      "DASH":23184.91790606,
-      "DCR":1857.38150916,
-      "ETH":36867.88860246,
-      "EUR":176.04728955,
-      "FCT":270.981585,
-      "GBP":103.72879128,
-      "HKD":20.16194456,
-      "INR":2.78546782,
-      "JPY":1.52047854,
-      "KRW":0.21358942,
-      "LTC":8334.63895588,
-      "MXN":8.14553136,
-      "PEG":0,
-      "PHP":3.87022583,
-      "RVN":2.88722763,
-      "SGD":93.43208389,
-      "USD":71.21949977,
-      "SILVER":94.21417265,
-      "GOLD":64182.6422265,
-      "BCH":70168.58599648,
-      "BTC":1308154.90972472,
-      "XLM":6.10595405,
-      "XMR":10448.66820555,
-      "XPD":112364.02807111,
-      "XPT":138012.26169199,
-      "ZEC":14430.18929303
-   }
-}
-```
 
 ## /v1/24hour/:height
 
@@ -230,21 +79,1190 @@ Example Response for `/v1/24hour/207766`:
 
 ## /v1/all/:height
 
-Returns a combination of height, market, and rates. 
+Returns all of the PNMC data for a single block. All currency related amounts are in 64-bit floats with a precision of 8 decimals.
+
+* `Height`: The block height (useful if using `current`)
+* `Blocktime`: A unix timestamp of when the block was opened
+* `Burnt`: The amount of FCT burnt
+* `TotalConversions`: The total value of conversions made since the genesis block, normalized to pUSD
+* `Data`: A map of symbols to an array of [VOLUME, VOLUMEIN, VOLUMEOUT, VOLUMETX, SUPPLY, PRICE]
+* `VOLUME`: The sum of all conversions in and out of the token, burns (pFCT only), coinbase rewards (PEG only), and transfers 
+* `VOLUMEIN`: The sum of all conversions into the token, coinbase rewards (PEG), and burns (pFCT)
+* `VOLUMEOUT`: The sum of all conversions out of the token
+* `VOLUMETX`: The sum of all transfers made
+* `SUPPLY`: The total issuance of coins
+* `PRICE`: The price value from the winning OPR
 
 Example Response:
 ```json
-{ 
-   "Blocktime":1568652300,
-   "Burnt":345.18424661,
-   "Supply":{ 
-      // ...
-   },
-   "Volume":{ 
-      // ...
-   },
-   "Rates":{ 
-      // ...
+{
+   "Height":229547,
+   "Blocktime":1580286240,
+   "Burnt":0,
+   "TotalConversions":55858228.70086162,
+   "Data":{
+      "PEG":[
+         10000,
+         10000,
+         0,
+         0,
+         2067425865.8947265,
+         0.00144857
+      ],
+      "pADA":[
+         0,
+         0,
+         0,
+         0,
+         7134.33556235,
+         0.05621735
+      ],
+      "pBCH":[
+         0,
+         0,
+         0,
+         0,
+         1.10674702,
+         391.95725406
+      ],
+      "pBNB":[
+         0,
+         0,
+         0,
+         0,
+         15.50112436,
+         18.55755024
+      ],
+      "pBRL":[
+         0,
+         0,
+         0,
+         0,
+         944.76003026,
+         0.23838862
+      ],
+      "pBTC":[
+         0,
+         0,
+         0,
+         0,
+         5.90889882,
+         9339.12058395
+      ],
+      "pCAD":[
+         0,
+         0,
+         0,
+         0,
+         297.01661778,
+         0.75922015
+      ],
+      "pCHF":[
+         0,
+         0,
+         0,
+         0,
+         222.14822355,
+         1.02703146
+      ],
+      "pCNY":[
+         0,
+         0,
+         0,
+         0,
+         1692.83503278,
+         0.14415868
+      ],
+      "pDASH":[
+         0,
+         0,
+         0,
+         0,
+         4.48482077,
+         118.66062299
+      ],
+      "pDCR":[
+         0,
+         0,
+         0,
+         0,
+         12.80860179,
+         19.58029273
+      ],
+      "pETH":[
+         0,
+         0,
+         0,
+         0,
+         346.32545812,
+         177.85230894
+      ],
+      "pEUR":[
+         0,
+         0,
+         0,
+         0,
+         226.48563866,
+         1.1005713
+      ],
+      "pFCT":[
+         2.92025813,
+         0,
+         2.92025813,
+         0,
+         246030.6368005,
+         1.96611954
+      ],
+      "pGBP":[
+         0,
+         0,
+         0,
+         0,
+         173.29829971,
+         1.30099916
+      ],
+      "pGOLD":[
+         0,
+         0,
+         0,
+         0,
+         19.09433608,
+         1568.08630747
+      ],
+      "pHKD":[
+         0,
+         0,
+         0,
+         0,
+         1758.06620733,
+         0.12863969
+      ],
+      "pINR":[
+         0,
+         0,
+         0,
+         0,
+         16016.49016187,
+         0.01404083
+      ],
+      "pJPY":[
+         0,
+         0,
+         0,
+         0,
+         24683.72247105,
+         0.00916572
+      ],
+      "pKRW":[
+         0,
+         0,
+         0,
+         0,
+         1987626.04921941,
+         0.00084905
+      ],
+      "pLTC":[
+         0,
+         0,
+         0,
+         0,
+         5.41003099,
+         61.29336569
+      ],
+      "pMXN":[
+         0,
+         0,
+         0,
+         0,
+         4380.87775484,
+         0.05335296
+      ],
+      "pPHP":[
+         0,
+         0,
+         0,
+         0,
+         11447.99014435,
+         0.01966909
+      ],
+      "pRVN":[
+         0,
+         0,
+         0,
+         0,
+         9490.54118466,
+         0.02720931
+      ],
+      "pSGD":[
+         0,
+         0,
+         0,
+         0,
+         305.8212912,
+         0.73571877
+      ],
+      "pSILVER":[
+         0,
+         0,
+         0,
+         0,
+         116.74051751,
+         17.47872838
+      ],
+      "pUSD":[
+         1.50127348,
+         0,
+         1.50127348,
+         0,
+         618780.13792011,
+         1
+      ],
+      "pXLM":[
+         0,
+         0,
+         0,
+         0,
+         4592.32028051,
+         0.06210597
+      ],
+      "pXMR":[
+         0,
+         0,
+         0,
+         0,
+         4.13773463,
+         68.50559165
+      ],
+      "pZEC":[
+         0,
+         0,
+         0,
+         0,
+         7.35982997,
+         60.75587647
+      ]
    }
 }
 ```
+
+## /v1/rich
+
+The global richlist, using the sum of all assets normalized to pUSD. 
+
+Example Response:
+```json
+[
+   {
+      "address":"FA2aQnwN6p6RgaLBJYC5FvgMwEg1bMXXgVdUv81SWxE87dqz64A4",
+      "pusd":542545.64055009
+   },
+   {
+      "address":"FA3A23YHzKu7gsMatepEAmyURyDC7HDM9sc6kM4pbhvWccEGA4Tv",
+      "pusd":418527.0858934
+   },
+   {
+      "address":"FA3YAFkyYASWwvyJtu3Qw36Btzh9XCw3kbxx31r37YGYYKfHkyKV",
+      "pusd":282852.96535211
+   },
+   {
+      "address":"FA2BQQX9Q8H1cqgCTqofha4efULdNpNnKWfbnb3eSNRUgEyD2gGy",
+      "pusd":208101.6954713
+   },
+   {
+      "address":"FA254wv8u18aqNtoTJ2HAkLsS3ocvfMJTvEUmbYa3Je2c8E3xk3A",
+      "pusd":151680.84656092
+   },
+   {
+      "address":"FA29tuC1MniQQd1XLjbaaSdDBYNYJan6b46QAyrmxSWrgSZoWQ3f",
+      "pusd":151081.19838886
+   },
+   {
+      "address":"FA2Tav4pLACg8JWMWa2VFKo6rV5R3DCDrhtkxxxfLTwPWx9k4E7Q",
+      "pusd":115983.2
+   },
+   {
+      "address":"FA2J9xMbmp1FbfuzNWCmUNKy714P6yWF9cf7BtK2Fp5F4cRMVUbj",
+      "pusd":111199.45212838
+   },
+   {
+      "address":"FA2VQwuZKvKXp2FFebMb5dJrxgvV4X15AVto8ybrqGeHyFh8ciiT",
+      "pusd":104633.17351359
+   },
+   {
+      "address":"FA2t6c2M2n7cL8ioA7dLULhMteUK9tUG4qD5oFTYT71Ba6rbG8Vn",
+      "pusd":96753.76010432
+   },
+   {
+      "address":"FA2UcWEAz6sYVe5UYxqnwjwP5MMyFDzf9CymJ98KBBz6GaJDrkkz",
+      "pusd":83701.24388342
+   },
+   {
+      "address":"FA3jKZDJ29BbEMiDcXMt3HjzYR7gE7KZi7p5YVpfx4SjUMzXtmCh",
+      "pusd":83065.72447254
+   },
+   {
+      "address":"FA2DY6cJxqAC7fgW6r1r6yPEdMvVb3RRcx525Nt9GDB2yy4HkFiG",
+      "pusd":81505.25265911
+   },
+   {
+      "address":"FA34vMS6ivcVfYh8LUjoGkjarNT73ReipZt8bKuCpMQFauLfg4BP",
+      "pusd":71656.02237569
+   },
+   {
+      "address":"FA2fRKyUfqnDT2hgFaGwdb7przpbZEEjjUoFxMT3EYAXby7ZeufX",
+      "pusd":63876.6651779
+   },
+   {
+      "address":"FA2GzcScSs6qpwS6SKqsVpSDBx8PZYPanReAL7de98gohsGSpCYV",
+      "pusd":53700.23445892
+   },
+   {
+      "address":"FA21WXZivVowScVHbY3SavgSuJqamEh88APiKtu2k4mpdL9M4H5F",
+      "pusd":52552.09091625
+   },
+   {
+      "address":"FA2jSuLwEGcKVNtnEHTRvPrhUbA65PfqUNpJHcRUaqfAKsUARkrU",
+      "pusd":48558.09929879
+   },
+   {
+      "address":"FA2U7cLn5DDDS44VBxvBVMNfY6rY8WB5ctjxVtF1jZxUCSc2Vngg",
+      "pusd":43036.96885054
+   },
+   {
+      "address":"FA28KDxR5c4SirKbsSNMHBbYjX7RFWES5GGdCdo8jnJ7YBwaHF9d",
+      "pusd":42963.86858756
+   },
+   {
+      "address":"FA2xEMtg6u74nW36K4ay4FH3CTW8Cj1WZgWiZM7JN9EWw9C94EBi",
+      "pusd":42472.34030377
+   },
+   {
+      "address":"FA2gYSsq1AhaRr5bUWwoHpWiamRj5btmRoLKPQEfW8LYcYabj6BD",
+      "pusd":39474.04382735
+   },
+   {
+      "address":"FA3b3wE2mLpaXoUYzQvDB5Gz3kciCXtJvmVhzWUt3uik3168bEss",
+      "pusd":36577.97058527
+   },
+   {
+      "address":"FA3DhVH6zz9cGgGvPyc59hX1HB9GbM8sP2e9qtsFUB5v15EJVPjH",
+      "pusd":36492.03413175
+   },
+   {
+      "address":"FA35JU7PJgmT5Pv4VgkNXKnSWEEjyXzSk4vrZByjvfYbv2AyBwLj",
+      "pusd":35400.20976215
+   },
+   {
+      "address":"FA39AzynBqfcM1mnxHGhcbVZiBoZYuQ6cv4awGuMdGwmkDfQ8L6N",
+      "pusd":35164.45791062
+   },
+   {
+      "address":"FA2j5UsotayXCjbshUFm4YkVmYXJpqozTgN8Y8EZjcyM86aFmvsJ",
+      "pusd":33231.31546187
+   },
+   {
+      "address":"FA2a2nXgkBg7pL5wrgm99rLZDGFs2T8jfTgMuia6ep8ZMkVtPe8E",
+      "pusd":32359.20935748
+   },
+   {
+      "address":"FA2eJ947e7ibZDY4h1RZ8p95avUhMpqGrP8cC5GMGR4VAeKnaRyk",
+      "pusd":32259.5380154
+   },
+   {
+      "address":"FA2GcYdQQqTmbRLsekudDay8y9SeHQKwGDgtmopxvadHPkzb7LJb",
+      "pusd":28995.8
+   },
+   {
+      "address":"FA3app4bxpegrTBvC29ESUpxSpb9mXkxBHjLBoCdcSo2SWePDkCV",
+      "pusd":28302.65589825
+   },
+   {
+      "address":"FA3QiPVbW2q5owKor5vt17P3ckbRb6zrTkagRdshmdAJouuWWUnW",
+      "pusd":28115.98564407
+   },
+   {
+      "address":"FA3WCM82jmHnMgFefbiJc1Asdq7fCaUzwbh1wtxmbNZ2ZjyvJ1eB",
+      "pusd":28052.41943875
+   },
+   {
+      "address":"FA2UBDpy8d9gqUeQzzCoqNWKGjqPVPP3R9kTEr1zVSKJeZ59qBbY",
+      "pusd":27427.77344826
+   },
+   {
+      "address":"FA2WYSFdbFKCnrp31YRYHqDAM1F48p1n17wbBW22eunntfXciko7",
+      "pusd":25965.85492062
+   },
+   {
+      "address":"FA2URNfwJhJ23PVPgDK5kEo3gZ64hUaHbQg2DyfjqD2P2N3Ysr9Y",
+      "pusd":25167.93803708
+   },
+   {
+      "address":"FA29HnVEnu7mW32J2NgcqjEkCNVjjTiH88tAyCQecJy6Py3bP3uk",
+      "pusd":24815.88569952
+   },
+   {
+      "address":"FA3jhRxr871KGa64H5dT4WFSbVGjcfhPKPUFHmtYbiWLbSQgC7oo",
+      "pusd":24168.10368488
+   },
+   {
+      "address":"FA2TBJrQaN3EDrcJbuCjLeeUS3ZDERNvaPDcq85LhThFCZfgRLgT",
+      "pusd":23708.16297892
+   },
+   {
+      "address":"FA3Zcpiv9LmagPPaR672WveUQ1RTK7Mq4P65QEhs6HYZJaEhg9hx",
+      "pusd":22740.39915339
+   },
+   {
+      "address":"FA3XTqdc8vs6S7xgvvS3HQrDKHuQkhas6Qjs3kufxTf6L6oiWijm",
+      "pusd":22597.46229681
+   },
+   {
+      "address":"FA2X2WCjCSwYJiBURCLr4sk92JAMo43iwBvAEbXk6DnPGcRoXFQF",
+      "pusd":22464.55517684
+   },
+   {
+      "address":"FA2QVK5WzkKe7bjLYu9cW4RYK4cctirxxiRxL3dEsY15FgzTSadB",
+      "pusd":22251.74766334
+   },
+   {
+      "address":"FA3pUrBgc9XshdnfcicwHjyg9YD6ujFRRAqn2HLbk3Fy2RG6f17z",
+      "pusd":21396.381
+   },
+   {
+      "address":"FA3oUQC5xMToVnMcHiRc5MJdrpHDWLSpumud76vr53nGyPbkaY3g",
+      "pusd":20972.979756
+   },
+   {
+      "address":"FA3N6Ay1M5u4RuA4Listo1TH6pXEfoywHHtVtSLU9cGy21eWLWx7",
+      "pusd":19230.23073739
+   },
+   {
+      "address":"FA2QhvJ3y4VQ6j9zNjaudtGXQBPzfr1UrjcX2oU2QhRCwcjLMyCT",
+      "pusd":17229.65569123
+   },
+   {
+      "address":"FA3iPRU4qYhWCNNYnzeX25R2BQLcGrkPFQ1P4tnzJ1a7JeJV96V6",
+      "pusd":17070.51599319
+   },
+   {
+      "address":"FA1zezXVnyg2bkJGHR73XHQK1tR2WkYh4jcwSMYCiVZex73NaY7g",
+      "pusd":16628.84039818
+   },
+   {
+      "address":"FA2t1XRZ4gY4FBzDxdMFfTT1hb5eJanQdwweTTKPpw7qUWX7uxgC",
+      "pusd":16607.72801375
+   },
+   {
+      "address":"FA3LHh1X6xfncf4eSph7p24TBqspf5LWz7LqqBLAozMwJDwHb2e6",
+      "pusd":16363.37524978
+   },
+   {
+      "address":"FA2KrLnQdmv4JxZciRqTPiavDcaK3Zpdqfru3CidWMoNMmKZe1uf",
+      "pusd":15962.05719979
+   },
+   {
+      "address":"FA2V61y1zuRgzTSLbBtwzExp1NteZuAEMgrXEwNmhvz3DWRgbERp",
+      "pusd":14962.8502969
+   },
+   {
+      "address":"FA37LmYjZcmr1xq9RRhfB3CAMfWJBoEMYQFm3hpZxxZCeCSZheBh",
+      "pusd":14663.39116796
+   },
+   {
+      "address":"FA2ky8hYmnVb6YuZgWyWUkFRjDgmhp5CkqQsnWsMN8zYndrYsMPY",
+      "pusd":14498.07252501
+   },
+   {
+      "address":"FA2L4qdpWdVQsa1RuUCAzhFcGNrksVKhWzJ9yepZjmTjPoLa64KY",
+      "pusd":14497.9
+   },
+   {
+      "address":"FA2PUvr3GiTJNf9JUsKC88pZAc2fgCtSbE2JCB6euFYsZ4Ejpyu6",
+      "pusd":14007.65081662
+   },
+   {
+      "address":"FA2N1RPEvwpeoe6rii1EHjvk8QanVF4vP6Siis2iWW3UKeEaWuLy",
+      "pusd":13964.68554382
+   },
+   {
+      "address":"FA39BA9xnUELuWRTTrxVSaWR785cmjufQ1gWyyymjRUqFq53mhzZ",
+      "pusd":13500
+   },
+   {
+      "address":"FA3LDEA5fcskV6ZoFpKE84qPcjd7GYjEnswGHMZXL1V9d14wmgh3",
+      "pusd":13316.06519952
+   },
+   {
+      "address":"FA3L6PiDrp2pz3xsj8YfuVTi7kJGGQnRxajQNerFB1fERfme9GLs",
+      "pusd":12578.34849744
+   },
+   {
+      "address":"FA2v54DsgmPxy8DtrdTBWwj2SbvB27JH3gkCPNsQ3HBd84QKv8Zh",
+      "pusd":12261.05982454
+   },
+   {
+      "address":"FA3TnaPGiBtBv5pBgkrPXDBGquWcG8oYXw1zTfX9W1AQts1Qpgin",
+      "pusd":12147.5420715
+   },
+   {
+      "address":"FA3iehTmBr8RjGLV3zcCTMAuYS3CCi23Ysq8Mo6PJGrbgbYQcAWR",
+      "pusd":11655.67010942
+   },
+   {
+      "address":"FA2YafcFzmgAhfQYDU59ceoiswdosdKqpXzjgpwvN9Cgrx2ZJ46Y",
+      "pusd":10839.7955517
+   },
+   {
+      "address":"FA3rcoQU89A74Tejq2PYJEh9LP9Xafq4b7PSdLj8ag1Yx9DJbMsw",
+      "pusd":10819.15942099
+   },
+   {
+      "address":"FA29sGKzVwTyzegwbjpYHsZAx7UB2skEYnK41FxNjorEmGgFFRkU",
+      "pusd":10438.68648838
+   },
+   {
+      "address":"FA2HrSa886NChXBxHxEW7FWkPh5yQmx7H9FESMXBCGq5vMHiVguE",
+      "pusd":10317.37919647
+   },
+   {
+      "address":"FA2wHQEFkd9XExaw2ZsY7UomBsmBjpSkSES4wSCn64T44Pn1ocMR",
+      "pusd":10148.53104407
+   },
+   {
+      "address":"FA2xPovDHe9zTxEWuGJTEssd63krWbtFCaRmA93VZ43C1kdTCaf5",
+      "pusd":9835.6709
+   },
+   {
+      "address":"FA3jW7bo22NA3hMHKqDMCPE8YzTCtFNR7tmX5pNZwnozQdPq1Yhc",
+      "pusd":9835.0720298
+   },
+   {
+      "address":"FA3Y2tuMaaY3FenD3yqgaRwgdQUuDq6wrP9WvFdHC738rLyhQxGf",
+      "pusd":9835.0720298
+   },
+   {
+      "address":"FA3kTnZqZ4EsEEbbRqqfkECHPAfJVxuYALPCKjWBYyLxLUDiY9KC",
+      "pusd":9835.0720298
+   },
+   {
+      "address":"FA2PmrqMYhQHZsvF2ZbM7PKjtvjzBMeuT5JLF9yCWeykRc7P9rwY",
+      "pusd":8975.72627503
+   },
+   {
+      "address":"FA2BHt2QUjg2M9zFgUPqdwSNaghSuMksY7Z1r9KKL3UzzCnRo76A",
+      "pusd":8020.87870955
+   },
+   {
+      "address":"FA2T1tgVwrHDVpMqHRRz5676x4CHkZqXGGp1CmBarYg5ZWcU85g4",
+      "pusd":7839.44346856
+   },
+   {
+      "address":"FA25xwvrHj45jZNTi8dNnuxAC6dhWGs6Z4E78KqKJyUWE67HFE79",
+      "pusd":7730.6065273
+   },
+   {
+      "address":"FA2hfF5NvpFDmCSMZa8U2aMRgJobgYSzUrssHtD7P2opa51pWfvD",
+      "pusd":7258.84294251
+   },
+   {
+      "address":"FA2hjeWnMQy3qb8zz3wFAhz8SQxAMGTvPjka2SRczpV153pA3fen",
+      "pusd":7248.95
+   },
+   {
+      "address":"FA2tKHbuAgjFS6V3QqWhKbFE1gYHwqdE2iUf442c32FM7BCXViyC",
+      "pusd":6999.03761072
+   },
+   {
+      "address":"FA3kPSkpwVBva9Wq9oMcbTsPHFQwcz58yNFrHXWxQtBeg4zUYV2y",
+      "pusd":6868.2866316
+   },
+   {
+      "address":"FA2EPd8uEtEd27Y11ghRViNXmeQB4nv1vmyTcNkFia7W5rk72yCv",
+      "pusd":6753.01351185
+   },
+   {
+      "address":"FA23CWipfBZWo2x9urrLgH1L9UNUBCdR4N8hi21kD7ZKdMcC4Hqf",
+      "pusd":6722.00678801
+   },
+   {
+      "address":"FA3ZGercG7Atbgyg5jYj7cZbJMXgsTrJvr8ijW7KYGXFBgqbha19",
+      "pusd":6700.75465626
+   },
+   {
+      "address":"FA2QoMfyay7psMoiuurcoJQo93QdYKo1QTrKWZuWTzRMCbFhqv9e",
+      "pusd":6561.98959332
+   },
+   {
+      "address":"FA2Z8WeM17njcwCohqYcvpJqkKb7RUJNWK4TyigBpCcbW9AiN8QP",
+      "pusd":6439.23068668
+   },
+   {
+      "address":"FA2tuzi9ZuTAp5goriUMaUqirELq7wecL77R3XZMhp2cRjqiVHkL",
+      "pusd":6324.06214421
+   },
+   {
+      "address":"FA2S7Phu67QgBjyzorjgM1A3bhjJN7jGvWmsz6LKXcV37DTv7kYJ",
+      "pusd":6169.08165525
+   },
+   {
+      "address":"FA3LSPc19G2Cm9N28YmuisczDnsjyugew29wx8sJvDASoZ84vXsZ",
+      "pusd":6088.73195799
+   },
+   {
+      "address":"FA2eqy9UZ2eNtJ4oj387zHV7pffmc9PrVEDgndJ1FzGmec53Mbba",
+      "pusd":6034.06547251
+   },
+   {
+      "address":"FA3mMgabFv23oP6YWbPgLGmZ7vYx8JePBGww76fVVzs3XJyF75sL",
+      "pusd":5993.60920722
+   },
+   {
+      "address":"FA3bTgzE1fsTKHt7sCdRiiKDhAdbTEK68qtsDZX44NsmQrjeaX59",
+      "pusd":5542.42823471
+   },
+   {
+      "address":"FA2R2u77KBZQ8HAaMFYMuj7Ty4eLfafw6G17o76jmRPmrLkEMKJG",
+      "pusd":5125.15370561
+   },
+   {
+      "address":"FA2zGvyrRyjK9AkChEucBmoXadJsNd19Co2ijBQMT4x65Gw998Ht",
+      "pusd":4779.07292095
+   },
+   {
+      "address":"FA3CRpXkCxSZezRUvBYQbr5SgQsgyW1RAkfTkrK5ErrZ4Hfqe95c",
+      "pusd":4569.77890413
+   },
+   {
+      "address":"FA2fYmopjFjDZcwMsfPxgPrwWYeqVQQXJF6yHGXC4GxNDwAn17Fj",
+      "pusd":4484.490428
+   },
+   {
+      "address":"FA3rms2iUn7acEZ6rxNRvqZ6jg9KCWfoVUcAjyknUWj1PPtKx9kr",
+      "pusd":4349.37178981
+   },
+   {
+      "address":"FA23rp99x18gxRvCWiuSZ4Sbk1XNQkZcPjRgXTN2qrXZ6KcPAnqi",
+      "pusd":4265.17954371
+   },
+   {
+      "address":"FA3VLvQbLNeMyNeLa1seQX4fVaTPd8uSAg3VbCtCkQ5hFCA4fYc4",
+      "pusd":4117.20047327
+   },
+   {
+      "address":"FA3a1ZE2ZNuUu1ZY4ArSj2y5VbcT9JaQNrq2bYM4Wam6yDuMoBw7",
+      "pusd":4102.66482918
+   }
+]
+```
+
+## /v1/rich/[:asset]
+
+
+The richlist for a specific asset. Returns both the value in the specific asset, and the value normalized to pUSD using the most recently available rate.
+
+Example Response:
+```json
+[
+   {
+      "address":"FA3A23YHzKu7gsMatepEAmyURyDC7HDM9sc6kM4pbhvWccEGA4Tv",
+      "amount":288664760.0927732,
+      "pusd":418503.2825349
+   },
+   {
+      "address":"FA2aQnwN6p6RgaLBJYC5FvgMwEg1bMXXgVdUv81SWxE87dqz64A4",
+      "amount":230773039.27767,
+      "pusd":334572.44461437
+   },
+   {
+      "address":"FA3YAFkyYASWwvyJtu3Qw36Btzh9XCw3kbxx31r37YGYYKfHkyKV",
+      "amount":195097490.89239287,
+      "pusd":282850.39132088
+   },
+   {
+      "address":"FA29tuC1MniQQd1XLjbaaSdDBYNYJan6b46QAyrmxSWrgSZoWQ3f",
+      "amount":101105814.1847215,
+      "pusd":146582.19834686
+   },
+   {
+      "address":"FA2Tav4pLACg8JWMWa2VFKo6rV5R3DCDrhtkxxxfLTwPWx9k4E7Q",
+      "amount":80000000,
+      "pusd":115983.2
+   },
+   {
+      "address":"FA2J9xMbmp1FbfuzNWCmUNKy714P6yWF9cf7BtK2Fp5F4cRMVUbj",
+      "amount":76700385.66163626,
+      "pusd":111199.45212838
+   },
+   {
+      "address":"FA2VQwuZKvKXp2FFebMb5dJrxgvV4X15AVto8ybrqGeHyFh8ciiT",
+      "amount":72171261.7093477,
+      "pusd":104633.17351359
+   },
+   {
+      "address":"FA3jKZDJ29BbEMiDcXMt3HjzYR7gE7KZi7p5YVpfx4SjUMzXtmCh",
+      "amount":56548072.57380063,
+      "pusd":81982.83013677
+   },
+   {
+      "address":"FA2DY6cJxqAC7fgW6r1r6yPEdMvVb3RRcx525Nt9GDB2yy4HkFiG",
+      "amount":56218661.08823474,
+      "pusd":81505.25265911
+   },
+   {
+      "address":"FA2fRKyUfqnDT2hgFaGwdb7przpbZEEjjUoFxMT3EYAXby7ZeufX",
+      "amount":44059253.53182411,
+      "pusd":63876.6651779
+   },
+   {
+      "address":"FA28KDxR5c4SirKbsSNMHBbYjX7RFWES5GGdCdo8jnJ7YBwaHF9d",
+      "amount":29634546.0981,
+      "pusd":42963.86858756
+   },
+   {
+      "address":"FA34vMS6ivcVfYh8LUjoGkjarNT73ReipZt8bKuCpMQFauLfg4BP",
+      "amount":28434452.44662231,
+      "pusd":41223.98481258
+   },
+   {
+      "address":"FA3b3wE2mLpaXoUYzQvDB5Gz3kciCXtJvmVhzWUt3uik3168bEss",
+      "amount":25229767.41751984,
+      "pusd":36577.86450424
+   },
+   {
+      "address":"FA3DhVH6zz9cGgGvPyc59hX1HB9GbM8sP2e9qtsFUB5v15EJVPjH",
+      "amount":25170565.48310893,
+      "pusd":36492.03413175
+   },
+   {
+      "address":"FA35JU7PJgmT5Pv4VgkNXKnSWEEjyXzSk4vrZByjvfYbv2AyBwLj",
+      "amount":24417474.09083901,
+      "pusd":35400.20976215
+   },
+   {
+      "address":"FA2UcWEAz6sYVe5UYxqnwjwP5MMyFDzf9CymJ98KBBz6GaJDrkkz",
+      "amount":23011666.50793915,
+      "pusd":33362.08398654
+   },
+   {
+      "address":"FA2j5UsotayXCjbshUFm4YkVmYXJpqozTgN8Y8EZjcyM86aFmvsJ",
+      "amount":22921468.25531707,
+      "pusd":33231.31546187
+   },
+   {
+      "address":"FA2a2nXgkBg7pL5wrgm99rLZDGFs2T8jfTgMuia6ep8ZMkVtPe8E",
+      "amount":22319928.65,
+      "pusd":32359.20935748
+   },
+   {
+      "address":"FA2eJ947e7ibZDY4h1RZ8p95avUhMpqGrP8cC5GMGR4VAeKnaRyk",
+      "amount":22251179.83666847,
+      "pusd":32259.5380154
+   },
+   {
+      "address":"FA2GcYdQQqTmbRLsekudDay8y9SeHQKwGDgtmopxvadHPkzb7LJb",
+      "amount":20000000,
+      "pusd":28995.8
+   },
+   {
+      "address":"FA3QiPVbW2q5owKor5vt17P3ckbRb6zrTkagRdshmdAJouuWWUnW",
+      "amount":19393143.5891199,
+      "pusd":28115.98564407
+   },
+   {
+      "address":"FA3WCM82jmHnMgFefbiJc1Asdq7fCaUzwbh1wtxmbNZ2ZjyvJ1eB",
+      "amount":18822849.79398948,
+      "pusd":27289.17940282
+   },
+   {
+      "address":"FA2WYSFdbFKCnrp31YRYHqDAM1F48p1n17wbBW22eunntfXciko7",
+      "amount":17910080.02581446,
+      "pusd":25965.85492062
+   },
+   {
+      "address":"FA2UBDpy8d9gqUeQzzCoqNWKGjqPVPP3R9kTEr1zVSKJeZ59qBbY",
+      "amount":17561604.96917872,
+      "pusd":25460.63926826
+   },
+   {
+      "address":"FA2URNfwJhJ23PVPgDK5kEo3gZ64hUaHbQg2DyfjqD2P2N3Ysr9Y",
+      "amount":17359712.81156849,
+      "pusd":25167.93803708
+   },
+   {
+      "address":"FA3jhRxr871KGa64H5dT4WFSbVGjcfhPKPUFHmtYbiWLbSQgC7oo",
+      "amount":16670072,
+      "pusd":24168.10368488
+   },
+   {
+      "address":"FA2TBJrQaN3EDrcJbuCjLeeUS3ZDERNvaPDcq85LhThFCZfgRLgT",
+      "amount":16352825.5671,
+      "pusd":23708.16297892
+   },
+   {
+      "address":"FA3Zcpiv9LmagPPaR672WveUQ1RTK7Mq4P65QEhs6HYZJaEhg9hx",
+      "amount":15685304.84998712,
+      "pusd":22740.39811846
+   },
+   {
+      "address":"FA3XTqdc8vs6S7xgvvS3HQrDKHuQkhas6Qjs3kufxTf6L6oiWijm",
+      "amount":15583252.69544236,
+      "pusd":22592.44392532
+   },
+   {
+      "address":"FA2QVK5WzkKe7bjLYu9cW4RYK4cctirxxiRxL3dEsY15FgzTSadB",
+      "amount":15348255.7221,
+      "pusd":22251.74766334
+   },
+   {
+      "address":"FA29HnVEnu7mW32J2NgcqjEkCNVjjTiH88tAyCQecJy6Py3bP3uk",
+      "amount":13876820.89941576,
+      "pusd":20118.47617176
+   },
+   {
+      "address":"FA3N6Ay1M5u4RuA4Listo1TH6pXEfoywHHtVtSLU9cGy21eWLWx7",
+      "amount":13264149.10945512,
+      "pusd":19230.23073739
+   },
+   {
+      "address":"FA2GzcScSs6qpwS6SKqsVpSDBx8PZYPanReAL7de98gohsGSpCYV",
+      "amount":12474336.29030546,
+      "pusd":18085.16801032
+   },
+   {
+      "address":"FA2QhvJ3y4VQ6j9zNjaudtGXQBPzfr1UrjcX2oU2QhRCwcjLMyCT",
+      "amount":11884242.3325,
+      "pusd":17229.65569123
+   },
+   {
+      "address":"FA3iPRU4qYhWCNNYnzeX25R2BQLcGrkPFQ1P4tnzJ1a7JeJV96V6",
+      "amount":11774474.91925851,
+      "pusd":17070.51599319
+   },
+   {
+      "address":"FA1zezXVnyg2bkJGHR73XHQK1tR2WkYh4jcwSMYCiVZex73NaY7g",
+      "amount":11469826.9392,
+      "pusd":16628.84039818
+   },
+   {
+      "address":"FA2t1XRZ4gY4FBzDxdMFfTT1hb5eJanQdwweTTKPpw7qUWX7uxgC",
+      "amount":11455264.56504499,
+      "pusd":16607.72801375
+   },
+   {
+      "address":"FA2V61y1zuRgzTSLbBtwzExp1NteZuAEMgrXEwNmhvz3DWRgbERp",
+      "amount":10318909.05259007,
+      "pusd":14960.25115535
+   },
+   {
+      "address":"FA2ky8hYmnVb6YuZgWyWUkFRjDgmhp5CkqQsnWsMN8zYndrYsMPY",
+      "amount":10000119,
+      "pusd":14498.07252501
+   },
+   {
+      "address":"FA2L4qdpWdVQsa1RuUCAzhFcGNrksVKhWzJ9yepZjmTjPoLa64KY",
+      "amount":10000000,
+      "pusd":14497.9
+   },
+   {
+      "address":"FA2PUvr3GiTJNf9JUsKC88pZAc2fgCtSbE2JCB6euFYsZ4Ejpyu6",
+      "amount":9661848.14119531,
+      "pusd":14007.65081662
+   },
+   {
+      "address":"FA2X2WCjCSwYJiBURCLr4sk92JAMo43iwBvAEbXk6DnPGcRoXFQF",
+      "amount":9541297.21482973,
+      "pusd":13832.87728908
+   },
+   {
+      "address":"FA21WXZivVowScVHbY3SavgSuJqamEh88APiKtu2k4mpdL9M4H5F",
+      "amount":8582964,
+      "pusd":12443.49537756
+   },
+   {
+      "address":"FA3L6PiDrp2pz3xsj8YfuVTi7kJGGQnRxajQNerFB1fERfme9GLs",
+      "amount":8540303.21792499,
+      "pusd":12381.64620231
+   },
+   {
+      "address":"FA3iehTmBr8RjGLV3zcCTMAuYS3CCi23Ysq8Mo6PJGrbgbYQcAWR",
+      "amount":7971715.49011948,
+      "pusd":11557.31340042
+   },
+   {
+      "address":"FA3LDEA5fcskV6ZoFpKE84qPcjd7GYjEnswGHMZXL1V9d14wmgh3",
+      "amount":7765324.96370461,
+      "pusd":11258.09047912
+   },
+   {
+      "address":"FA2YafcFzmgAhfQYDU59ceoiswdosdKqpXzjgpwvN9Cgrx2ZJ46Y",
+      "amount":7476803.91760679,
+      "pusd":10839.7955517
+   },
+   {
+      "address":"FA3rcoQU89A74Tejq2PYJEh9LP9Xafq4b7PSdLj8ag1Yx9DJbMsw",
+      "amount":7462570.0418627,
+      "pusd":10819.15942099
+   },
+   {
+      "address":"FA3app4bxpegrTBvC29ESUpxSpb9mXkxBHjLBoCdcSo2SWePDkCV",
+      "amount":7376335.23959183,
+      "pusd":10694.137067
+   },
+   {
+      "address":"FA29sGKzVwTyzegwbjpYHsZAx7UB2skEYnK41FxNjorEmGgFFRkU",
+      "amount":7200000.81972907,
+      "pusd":10438.48918843
+   },
+   {
+      "address":"FA2HrSa886NChXBxHxEW7FWkPh5yQmx7H9FESMXBCGq5vMHiVguE",
+      "amount":7116459.55363293,
+      "pusd":10317.37189626
+   },
+   {
+      "address":"FA2wHQEFkd9XExaw2ZsY7UomBsmBjpSkSES4wSCn64T44Pn1ocMR",
+      "amount":7000000,
+      "pusd":10148.53
+   },
+   {
+      "address":"FA2v54DsgmPxy8DtrdTBWwj2SbvB27JH3gkCPNsQ3HBd84QKv8Zh",
+      "amount":6771201.63656606,
+      "pusd":9816.82042067
+   },
+   {
+      "address":"FA2PmrqMYhQHZsvF2ZbM7PKjtvjzBMeuT5JLF9yCWeykRc7P9rwY",
+      "amount":6191052.68696181,
+      "pusd":8975.72627503
+   },
+   {
+      "address":"FA2T1tgVwrHDVpMqHRRz5676x4CHkZqXGGp1CmBarYg5ZWcU85g4",
+      "amount":5407295.86254863,
+      "pusd":7839.44346856
+   },
+   {
+      "address":"FA25xwvrHj45jZNTi8dNnuxAC6dhWGs6Z4E78KqKJyUWE67HFE79",
+      "amount":5332225.03073478,
+      "pusd":7730.6065273
+   },
+   {
+      "address":"FA2hfF5NvpFDmCSMZa8U2aMRgJobgYSzUrssHtD7P2opa51pWfvD",
+      "amount":5006823.70723903,
+      "pusd":7258.84294251
+   },
+   {
+      "address":"FA2hjeWnMQy3qb8zz3wFAhz8SQxAMGTvPjka2SRczpV153pA3fen",
+      "amount":5000000,
+      "pusd":7248.95
+   },
+   {
+      "address":"FA2tKHbuAgjFS6V3QqWhKbFE1gYHwqdE2iUf442c32FM7BCXViyC",
+      "amount":4827084.95101592,
+      "pusd":6998.25949113
+   },
+   {
+      "address":"FA23CWipfBZWo2x9urrLgH1L9UNUBCdR4N8hi21kD7ZKdMcC4Hqf",
+      "amount":4636538.249,
+      "pusd":6722.00678801
+   },
+   {
+      "address":"FA2QoMfyay7psMoiuurcoJQo93QdYKo1QTrKWZuWTzRMCbFhqv9e",
+      "amount":4526165.578,
+      "pusd":6561.98959332
+   },
+   {
+      "address":"FA2Z8WeM17njcwCohqYcvpJqkKb7RUJNWK4TyigBpCcbW9AiN8QP",
+      "amount":4441492,
+      "pusd":6439.23068668
+   },
+   {
+      "address":"FA2tuzi9ZuTAp5goriUMaUqirELq7wecL77R3XZMhp2cRjqiVHkL",
+      "amount":4360944.72116004,
+      "pusd":6322.45404729
+   },
+   {
+      "address":"FA2S7Phu67QgBjyzorjgM1A3bhjJN7jGvWmsz6LKXcV37DTv7kYJ",
+      "amount":4255155.33646807,
+      "pusd":6169.08165525
+   },
+   {
+      "address":"FA3LSPc19G2Cm9N28YmuisczDnsjyugew29wx8sJvDASoZ84vXsZ",
+      "amount":4199733.7255731,
+      "pusd":6088.73195799
+   },
+   {
+      "address":"FA2eqy9UZ2eNtJ4oj387zHV7pffmc9PrVEDgndJ1FzGmec53Mbba",
+      "amount":4162027.24015985,
+      "pusd":6034.06547251
+   },
+   {
+      "address":"FA3mMgabFv23oP6YWbPgLGmZ7vYx8JePBGww76fVVzs3XJyF75sL",
+      "amount":4134122.3261477,
+      "pusd":5993.60920722
+   },
+   {
+      "address":"FA2BHt2QUjg2M9zFgUPqdwSNaghSuMksY7Z1r9KKL3UzzCnRo76A",
+      "amount":3861425.66892784,
+      "pusd":5598.25632055
+   },
+   {
+      "address":"FA3kPSkpwVBva9Wq9oMcbTsPHFQwcz58yNFrHXWxQtBeg4zUYV2y",
+      "amount":3758240.74647596,
+      "pusd":5448.65985183
+   },
+   {
+      "address":"FA2R2u77KBZQ8HAaMFYMuj7Ty4eLfafw6G17o76jmRPmrLkEMKJG",
+      "amount":3535100.74259765,
+      "pusd":5125.15370561
+   },
+   {
+      "address":"FA2BQQX9Q8H1cqgCTqofha4efULdNpNnKWfbnb3eSNRUgEyD2gGy",
+      "amount":3519766.5865378,
+      "pusd":5102.92239949
+   },
+   {
+      "address":"FA3LHh1X6xfncf4eSph7p24TBqspf5LWz7LqqBLAozMwJDwHb2e6",
+      "amount":3503687.64954628,
+      "pusd":5079.61131743
+   },
+   {
+      "address":"FA2zGvyrRyjK9AkChEucBmoXadJsNd19Co2ijBQMT4x65Gw998Ht",
+      "amount":3296389.76745421,
+      "pusd":4779.07292095
+   },
+   {
+      "address":"FA3CRpXkCxSZezRUvBYQbr5SgQsgyW1RAkfTkrK5ErrZ4Hfqe95c",
+      "amount":3152028.15865706,
+      "pusd":4569.77890413
+   },
+   {
+      "address":"FA2fYmopjFjDZcwMsfPxgPrwWYeqVQQXJF6yHGXC4GxNDwAn17Fj",
+      "amount":3093200,
+      "pusd":4484.490428
+   },
+   {
+      "address":"FA3rms2iUn7acEZ6rxNRvqZ6jg9KCWfoVUcAjyknUWj1PPtKx9kr",
+      "amount":3000001.23453581,
+      "pusd":4349.37178981
+   },
+   {
+      "address":"FA23rp99x18gxRvCWiuSZ4Sbk1XNQkZcPjRgXTN2qrXZ6KcPAnqi",
+      "amount":2941929.2061,
+      "pusd":4265.17954371
+   },
+   {
+      "address":"FA37LmYjZcmr1xq9RRhfB3CAMfWJBoEMYQFm3hpZxxZCeCSZheBh",
+      "amount":2732326.87190267,
+      "pusd":3961.30017561
+   },
+   {
+      "address":"FA29pU4DvjQs5Yquf4bieCuU7NB4xKLsfTmjJhti88eB9kixyU9o",
+      "amount":2723984,
+      "pusd":3949.20476336
+   },
+   {
+      "address":"FA32EMh6MbAPV5YpRbS77ztQkJpLBgxAyAfSekn8xe7X59EN4zwf",
+      "amount":2500000,
+      "pusd":3624.475
+   },
+   {
+      "address":"FA3CoFFeeFaYUpxENVLtE6ye1JEXAXBgLWVcZvFqMFbQVK41tTb7",
+      "amount":2500000,
+      "pusd":3624.475
+   },
+   {
+      "address":"FA2t6c2M2n7cL8ioA7dLULhMteUK9tUG4qD5oFTYT71Ba6rbG8Vn",
+      "amount":2498381.02195362,
+      "pusd":3622.12782181
+   },
+   {
+      "address":"FA2tgeWtrtt552XTiLuKn4NLWzBD8a3zCEZt6Sjpg936ytiAVDou",
+      "amount":2437595,
+      "pusd":3534.00085505
+   },
+   {
+      "address":"FA2jCGLTY5VFi6mGgAzXU2xjfpbPFqvYuzsHWHGYv5c2qWSrNHvr",
+      "amount":2411176.78380278,
+      "pusd":3495.69998938
+   },
+   {
+      "address":"FA3GrEPxequ9fUiWRHiGfWGAaJrYc6Cx3QnekZct2nuPEVkRmT2N",
+      "amount":2402026.66521263,
+      "pusd":3482.43423895
+   },
+   {
+      "address":"FA2KrLnQdmv4JxZciRqTPiavDcaK3Zpdqfru3CidWMoNMmKZe1uf",
+      "amount":2394460.03378469,
+      "pusd":3471.46421238
+   },
+   {
+      "address":"FA3bTgzE1fsTKHt7sCdRiiKDhAdbTEK68qtsDZX44NsmQrjeaX59",
+      "amount":2332407.48711152,
+      "pusd":3381.50105073
+   },
+   {
+      "address":"FA3ew7WCqcD5mubd4DTsVdd3fBmSqaYMdhPsyGdvqLZViRRmgawZ",
+      "amount":2012777.08400147,
+      "pusd":2918.10408861
+   },
+   {
+      "address":"FA3Ukfx6SVceyCafoDWoYFqRqQNiFn2qVFRMhbGM8hhmthqfdXYU",
+      "amount":2003777.9831,
+      "pusd":2905.05728211
+   },
+   {
+      "address":"FA2eJwse87hLWXGcfhokG36erBYor34cGA57LVdtmAPQ2hxteQKo",
+      "amount":2000000,
+      "pusd":2899.58
+   },
+   {
+      "address":"FA3mr4Sm23qL3UPZ93TB8JAsC2A5ijjLcYLyLPBzdCMUXmEKR2Hh",
+      "amount":2000000,
+      "pusd":2899.58
+   },
+   {
+      "address":"FA2jSuLwEGcKVNtnEHTRvPrhUbA65PfqUNpJHcRUaqfAKsUARkrU",
+      "amount":1959380.82811746,
+      "pusd":2840.69073079
+   },
+   {
+      "address":"FA2xEMtg6u74nW36K4ay4FH3CTW8Cj1WZgWiZM7JN9EWw9C94EBi",
+      "amount":1944357.46433582,
+      "pusd":2818.91000821
+   },
+   {
+      "address":"FA34FWwDX3QS79FRqZ69bu1UukaT1mWLDut6Csn8ZLgTUd4gVbFT",
+      "amount":1869597.80566131,
+      "pusd":2710.52420266
+   },
+   {
+      "address":"FA2DzyYy4pUL4vAvvujiFRCWMqCK3k66ise7f2kqojpt6NGxmJtM",
+      "amount":1846314.74347408,
+      "pusd":2676.76865194
+   },
+   {
+      "address":"FA2AcuUeBotjCsK45UnUvMRvNPP3txhCHWSy5jfGRMMaCxncP6ka",
+      "amount":1748690.80465305,
+      "pusd":2535.23444167
+   },
+   {
+      "address":"FA2BfcMssXcsZ9wS76Nea584puwyyMxW3yDK8nFNsvRQMHppCSuC",
+      "amount":1695474.4722222,
+      "pusd":2458.08193508
+   },
+   {
+      "address":"FA2AVfK6VaAhMGLPGXkdJBqhhXUq5QhJvid1sJuuvhPUsdVHZfMz",
+      "amount":1667460.54593548,
+      "pusd":2417.46762489
+   },
+   {
+      "address":"FA33uAZLqKoQHU4BPf48R9hwRxbRfrPEqTMuRYhyCsrDoQyqB6Bg",
+      "amount":1652982.03830099,
+      "pusd":2396.4768293
+   },
+   {
+      "address":"FA2oecgJW3XWnXzHhQQoULmMeKC97uAgHcPd4kEowTb3csVkbDc9",
+      "amount":1648439.102324,
+      "pusd":2389.89052615
+   }
+]
+```
+
