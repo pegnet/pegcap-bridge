@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -41,7 +42,7 @@ func (a *Api) _getStats(height uint32) (*pegnet.Stats, error) {
 
 func (a *Api) _getRates(height uint32) (*srv.ResultPegnetTickerMap, error) {
 	var res srv.ResultPegnetTickerMap
-	err := a.Cli.Request("get-pegnet-rates", srv.ParamsGetPegnetRates{Height: &height}, &res)
+	err := a.Cli.Request("get-pegnet-rates", srv.ParamsGetPegnetRates{Height: height}, &res)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +52,7 @@ func (a *Api) _getRates(height uint32) (*srv.ResultPegnetTickerMap, error) {
 func (a *Api) _blockTime(height uint32) (int64, error) {
 	var dblock factom.DBlock
 	dblock.Height = height
-	if err := dblock.Get(a.Factom); err != nil {
+	if err := dblock.Get(context.Background(), a.Factom); err != nil {
 		return 0, a.BadRequest("unable to contact factomd endpoint: " + err.Error())
 	}
 
