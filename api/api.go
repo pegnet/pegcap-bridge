@@ -1,6 +1,7 @@
 package api
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -29,7 +30,7 @@ func (api *Api) Init(pegnetd string, factomd string) {
 func (api *Api) GetBlockTime(height uint32) (time.Time, error) {
 	dblock := new(factom.DBlock)
 	dblock.Height = height
-	if err := dblock.Get(api.Factom); err != nil {
+	if err := dblock.Get(context.Background(), api.Factom); err != nil {
 		return time.Time{}, err
 	}
 
