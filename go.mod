@@ -1,4 +1,4 @@
-module github.com/whosoup/pegcap-bridge
+module github.com/pegnet/pegcap-bridge
 
 go 1.13
 
