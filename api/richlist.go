@@ -52,10 +52,12 @@ func (api *Api) GlobalRichList(c echo.Context) error {
 
 	res := make([]ReturnRichList, 0, len(h))
 	for _, rich := range h {
-		res = append(res, ReturnRichList{
-			Address: rich.Address,
-			Equiv:   Uint64ToFloat(rich.Equiv),
-		})
+		if rich.Address != "FA2BURNBABYBURNoooooooooooooooooooooooooooooooDGvNXy" {
+			res = append(res, ReturnRichList{
+				Address: rich.Address,
+				Equiv:   Uint64ToFloat(rich.Equiv),
+			})
+		}
 	}
 
 	js, _ := json.Marshal(res)
